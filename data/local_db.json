@@ -1,0 +1,509 @@
+{
+  "feedback": [
+    {
+      "id": "a0f250ad-e372-42f9-9901-33fd13da70f1",
+      "category": "course_content",
+      "text": "The explanation is not understandable",
+      "timestamp": "2026-01-09T13:15:56.157Z",
+      "processed": true
+    },
+    {
+      "id": "2e6e4f9e-f6cf-425b-9ee6-58bc49e3a8ec",
+      "category": "teaching_style",
+      "text": "The systems are not working well",
+      "timestamp": "2026-01-09T13:16:15.364Z",
+      "processed": true
+    },
+    {
+      "id": "28518fe7-8cfb-4d6c-8628-3039dfe9877f",
+      "category": "teaching_style",
+      "text": "NO internet",
+      "timestamp": "2026-01-09T13:16:26.472Z",
+      "processed": true
+    },
+    {
+      "id": "e6211d8f-fdec-4f74-a6ec-325fa3cbf812",
+      "category": "facilities",
+      "text": "There is no playground to play games and no environment like trees and grass",
+      "timestamp": "2026-01-09T13:17:00.920Z",
+      "processed": true
+    },
+    {
+      "id": "a5433465-e425-49b5-b31c-a304ccf41186",
+      "category": "teaching_style",
+      "text": "The lectures are too fast and hard to follow.",
+      "timestamp": "2026-01-09T18:58:09.632839",
+      "processed": true
+    },
+    {
+      "id": "3eef227f-aff2-4797-b84f-cf8af4ef54b9",
+      "category": "teaching_style",
+      "text": "I can't keep up with the professor's pace.",
+      "timestamp": "2026-01-09T18:58:11.674379",
+      "processed": true
+    },
+    {
+      "id": "456234f7-8698-4b1e-a97a-a09d97c65d34",
+      "category": "facilities",
+      "text": "The air conditioning in the lab is broken.",
+      "timestamp": "2026-01-09T18:58:13.732162",
+      "processed": true
+    },
+    {
+      "id": "0201ee48-459e-4082-b6ae-ebb111d17844",
+      "category": "facilities",
+      "text": "It's too hot in the computer lab to concentrate.",
+      "timestamp": "2026-01-09T18:58:15.785484",
+      "processed": true
+    },
+    {
+      "id": "0032f110-3dab-42cb-834d-9569fae2b3c8",
+      "category": "facilities",
+      "text": "no trees for fresh air",
+      "timestamp": "2026-01-09T13:31:13.396Z",
+      "processed": true
+    },
+    {
+      "id": "17fe32eb-16a8-43a0-9a99-cb7cb432fa04",
+      "category": "teaching_style",
+      "text": "The computers are not working properly",
+      "timestamp": "2026-01-09T13:38:54.872Z",
+      "processed": true
+    },
+    {
+      "id": "134e038d-8f76-4165-89bd-0a99fdeec68c",
+      "category": "facilities",
+      "text": "There is no ground to play games",
+      "timestamp": "2026-01-09T13:39:12.408Z",
+      "processed": true
+    },
+    {
+      "id": "3890363f-32c2-4ce0-a210-5bee4fa0e4ef",
+      "category": "facilities",
+      "text": "The internet is too slow and working properly some times\n",
+      "timestamp": "2026-01-09T13:39:40.584Z",
+      "processed": true
+    },
+    {
+      "id": "d3ea10f1-03e6-44c0-bed4-56a3fb016997",
+      "category": "course_content",
+      "text": "The teachers are going to fast and understanding the syllabus",
+      "timestamp": "2026-01-09T13:40:35.692Z",
+      "processed": true
+    },
+    {
+      "id": "5f0d56d1-ec39-4f62-b272-5e53a886cea5",
+      "category": "other",
+      "text": "Teaching is well, but it is fast while explaning",
+      "timestamp": "2026-01-09T13:41:47.735Z",
+      "processed": true
+    },
+    {
+      "id": "3255835e-e8c4-4665-b130-628451243c45",
+      "category": "teaching_style",
+      "text": "The lectures are too fast and hard to follow.",
+      "timestamp": "2026-01-09T19:14:07.692947",
+      "processed": true
+    },
+    {
+      "id": "5a54acab-aa4d-4216-b8f7-cef5e440a398",
+      "category": "teaching_style",
+      "text": "I can't keep up with the professor's pace.",
+      "timestamp": "2026-01-09T19:14:09.747565",
+      "processed": true
+    },
+    {
+      "id": "1e8f2352-30a7-4058-ab43-7a9c48c65f4d",
+      "category": "facilities",
+      "text": "The air conditioning in the lab is broken.",
+      "timestamp": "2026-01-09T19:14:11.817025",
+      "processed": true
+    },
+    {
+      "id": "39164d17-2b43-4825-b67d-3997d2b81ae9",
+      "category": "facilities",
+      "text": "It's too hot in the computer lab to concentrate.",
+      "timestamp": "2026-01-09T19:14:13.885129",
+      "processed": true
+    },
+    {
+      "id": "086d4dd0-cf9d-4a30-9824-b4965acdf616",
+      "category": "teaching_style",
+      "text": "The lectures are too fast and hard to follow.",
+      "timestamp": "2026-01-09T19:22:26.598674",
+      "processed": true
+    },
+    {
+      "id": "7ac6e7f5-7b8a-481b-9d28-d6694b30f285",
+      "category": "teaching_style",
+      "text": "I can't keep up with the professor's pace.",
+      "timestamp": "2026-01-09T19:22:28.675497",
+      "processed": true
+    },
+    {
+      "id": "bf1dc067-4138-419d-b739-b5c2c6e448ee",
+      "category": "facilities",
+      "text": "The air conditioning in the lab is broken.",
+      "timestamp": "2026-01-09T19:22:30.701124",
+      "processed": true
+    },
+    {
+      "id": "c7be3fbd-82de-47e4-94cd-728d3910ab54",
+      "category": "facilities",
+      "text": "It's too hot in the computer lab to concentrate.",
+      "timestamp": "2026-01-09T19:22:32.776863",
+      "processed": true
+    },
+    {
+      "id": "bd0a38da-9b37-4b78-980b-78a664b359af",
+      "category": "facilities",
+      "text": "no trees in the college environment",
+      "timestamp": "2026-01-09T13:55:05.605Z",
+      "processed": true
+    },
+    {
+      "id": "a25d4a95-bf1e-4d18-b045-a081a766c690",
+      "category": "facilities",
+      "text": "noo internet and poor connection",
+      "timestamp": "2026-01-09T13:55:27.278Z",
+      "processed": true
+    },
+    {
+      "id": "605fb12d-5618-4870-8075-465a6a2b6d4e",
+      "category": "facilities",
+      "text": "No conectivity for the internet in the labs",
+      "timestamp": "2026-01-09T13:55:49.951Z",
+      "processed": true
+    },
+    {
+      "id": "6c81eff5-769f-4fe5-bb50-ce9cb76dfae7",
+      "category": "facilities",
+      "text": "The computers are not working properly",
+      "timestamp": "2026-01-09T13:56:10.377Z",
+      "processed": true
+    },
+    {
+      "id": "3460135a-3cea-4fb6-af7d-af16ef22fc0b",
+      "category": "exams",
+      "text": "Results are getting late to release",
+      "timestamp": "2026-01-09T13:56:34.924Z",
+      "processed": true
+    },
+    {
+      "id": "5ffa39f9-6c46-4fd2-a28d-b643e045276e",
+      "category": "course_content",
+      "text": "The syllabus is going to fast",
+      "timestamp": "2026-01-09T13:56:50.797Z",
+      "processed": true
+    },
+    {
+      "id": "c99af450-93c6-4a09-a8c2-b4b4eb2077b5",
+      "category": "course_content",
+      "text": "Teachers are not properly teaching",
+      "timestamp": "2026-01-09T13:57:15.218Z",
+      "processed": true
+    },
+    {
+      "id": "62ed62a8-1d34-4148-991f-ce36ad3d5fac",
+      "category": "teaching_style",
+      "text": "Good, but it should be improved",
+      "timestamp": "2026-01-09T13:57:32.125Z",
+      "processed": true
+    },
+    {
+      "id": "27f07971-e556-4858-88ad-38982eb06889",
+      "category": "other",
+      "text": "ragging by seniors",
+      "timestamp": "2026-01-09T13:59:35.230Z",
+      "processed": true
+    }
+  ],
+  "results": [
+    {
+      "id": "2096dee7-0dbb-4f2b-9f46-3fbb57b3e13b",
+      "timestamp": "2026-01-09T18:47:12.450628",
+      "clusters": [
+        {
+          "theme": "Cluster 3",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The explanation is not understandable...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The explanation is not understandable"
+          ]
+        },
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The systems are not working well...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The systems are not working well"
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: NO internet...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "NO internet",
+            "There is no playground to play games and no environment like trees and grass"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "0f183e77-bf11-4a8b-9145-fc52952470dc",
+      "timestamp": "2026-01-09T18:58:20.397657",
+      "clusters": [
+        {
+          "theme": "Cluster 3",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The lectures are too fast and hard to follow."
+          ]
+        },
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "I can't keep up with the professor's pace."
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The air conditioning in the lab is broken.",
+            "It's too hot in the computer lab to concentrate."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "a3735762-d914-4dc6-8fb9-c5f3961496f8",
+      "timestamp": "2026-01-09T19:08:14.600015",
+      "clusters": [
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: no trees for fresh air...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "no trees for fresh air"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "814c2849-9c1f-4b6d-a6fd-db1bfbcb1ea1",
+      "timestamp": "2026-01-09T19:11:54.538034",
+      "clusters": [
+        {
+          "theme": "Cluster 3",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The computers are not working properly...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The computers are not working properly",
+            "The internet is too slow and working properly some times\n"
+          ]
+        },
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: There is no ground to play games...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "There is no ground to play games"
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The teachers are going to fast and understanding t...",
+          "solutions": [
+            "Conduct a survey to gather more details.",
+            "Organize a town hall meeting with students.",
+            "Review the curriculum/facilities based on feedback."
+          ],
+          "sample_texts": [
+            "The teachers are going to fast and understanding the syllabus",
+            "Teaching is well, but it is fast while explaning"
+          ]
+        }
+      ]
+    },
+    {
+      "id": "799c57b0-74a5-4b10-abc2-f6b4a3501462",
+      "timestamp": "2026-01-09T19:14:19.235065",
+      "clusters": [
+        {
+          "theme": "Cluster 3",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
+          "solutions": [
+            "Conduct a focused student survey to gather more specific details.",
+            "Organize a town hall meeting to discuss this issue with students.",
+            "Form a student-faculty committee to address these concerns."
+          ],
+          "sample_texts": [
+            "The lectures are too fast and hard to follow."
+          ]
+        },
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
+          "solutions": [
+            "Conduct a focused student survey to gather more specific details.",
+            "Organize a town hall meeting to discuss this issue with students.",
+            "Form a student-faculty committee to address these concerns."
+          ],
+          "sample_texts": [
+            "I can't keep up with the professor's pace."
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
+          "solutions": [
+            "Conduct a focused student survey to gather more specific details.",
+            "Organize a town hall meeting to discuss this issue with students.",
+            "Schedule immediate maintenance check for facilities."
+          ],
+          "sample_texts": [
+            "The air conditioning in the lab is broken.",
+            "It's too hot in the computer lab to concentrate."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "cbfe7a8e-16c2-4d97-aa07-b0e7d349fbda",
+      "timestamp": "2026-01-09T19:22:37.675027",
+      "clusters": [
+        {
+          "theme": "Cluster 3",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
+          "solutions": [
+            "Implement a 'pause-and-ask' policy during lectures and provide recorded sessions for review."
+          ],
+          "sample_texts": [
+            "The lectures are too fast and hard to follow."
+          ]
+        },
+        {
+          "theme": "Cluster 1",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
+          "solutions": [
+            "Implement a 'pause-and-ask' policy during lectures and provide recorded sessions for review."
+          ],
+          "sample_texts": [
+            "I can't keep up with the professor's pace."
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
+          "solutions": [
+            "Dispatch facilities team for immediate repair and schedule preventive maintenance checks."
+          ],
+          "sample_texts": [
+            "The air conditioning in the lab is broken.",
+            "It's too hot in the computer lab to concentrate."
+          ]
+        }
+      ]
+    },
+    {
+      "id": "930ad403-8ce1-468a-85ba-172c3b48748b",
+      "timestamp": "2026-01-09T19:29:43.604494",
+      "clusters": [
+        {
+          "theme": "Cluster 1",
+          "count": 6,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: no trees in the college environment...",
+          "solutions": [
+            "Allocate budget for green space development and outdoor student recreational areas."
+          ],
+          "sample_texts": [
+            "no trees in the college environment",
+            "The computers are not working properly",
+            "Results are getting late to release"
+          ]
+        },
+        {
+          "theme": "Cluster 3",
+          "count": 2,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: noo internet and poor connection...",
+          "solutions": [
+            "Upgrade the campus Wi-Fi infrastructure with high-density access points in study areas."
+          ],
+          "sample_texts": [
+            "noo internet and poor connection",
+            "No conectivity for the internet in the labs"
+          ]
+        },
+        {
+          "theme": "Cluster 2",
+          "count": 1,
+          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: ragging by seniors...",
+          "solutions": [
+            "Initiate a student-faculty joint committee to investigate and address these specific concerns."
+          ],
+          "sample_texts": [
+            "ragging by seniors"
+          ]
+        }
+      ]
+    }
+  ]
+}
