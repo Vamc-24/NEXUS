@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Feedback</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Student Voice</h1>
+        <nav>
+            <a href="index.html">Submit Feedback</a>
+            <a href="dashboard.html">Admin Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div class="container" id="form-container">
+            <h2>Share Your Feedback</h2>
+            <p>We value your input. Please share your thoughts on your recent learning experience.</p>
+
+            <form id="feedback-form">
+                <div class="form-group">
+                    <label for="category">Category</label>
+                    <select id="category" name="category" required>
+                        <option value="">Select a category...</option>
+                        <option value="course_content">Course Content</option>
+                        <option value="teaching_style">Teaching Style</option>
+                        <option value="facilities">Facilities/Environment</option>
+                        <option value="exams">Exams & Grading</option>
+                        <option value="other">Other</option>
+                        <option value="curriculum">Curriculum</option>
+                        <option value="schedule">Schedule/Timetable</option>
+                        <option value="support">Support Services</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="feedback-text">Your Comments</label>
+                    <textarea id="feedback-text" name="feedback" rows="6" required
+                        placeholder="What's going well? What could be improved?"></textarea>
+                </div>
+
+                <button type="submit" id="submit-btn">Submit Feedback</button>
+            </form>
+        </div>
+
+        <div class="container hidden" id="success-screen">
+            <div id="success-message">
+                <h2>Thank You!</h2>
+                <p>Your feedback has been received and will be reviewed.</p>
+                <button id="submit-another">Submit Another</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

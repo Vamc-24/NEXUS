@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Feedback Analysis Dashboard</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <header>
+        <h1>Student Voice Analysis</h1>
+        <nav>
+            <a href="index.html">Submit Feedback</a>
+            <a href="dashboard.html" class="active">Admin Dashboard</a>
+        </nav>
+    </header>
+
+    <main>
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 2rem;">
+            <h2>Feedback Insights</h2>
+            <button id="refresh-btn">Processing...</button>
+        </div>
+
+        <div id="dashboard-content" class="dashboard-grid">
+            <!-- content will be loaded here -->
+            <p>Loading insights...</p>
+        </div>
+    </main>
+
+    <script src="dashboard.js"></script>
+</body>
+
+</html>
