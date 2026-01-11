@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus | Feedback Portal</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Specific Styles for Feedback Form */
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .form-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 40px 20px;
+        }
+
+        .feedback-card {
+            background: #18181b;
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px;
+            width: 100%;
+            max-width: 600px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            position: relative;
+            overflow: hidden;
+            transition: height 0.3s ease;
+        }
+
+        /* Ambient Glow */
+        .feedback-card::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--primary-orange);
+            filter: blur(80px);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .feedback-card::after {
+            content: '';
+            position: absolute;
+            bottom: -50px;
+            left: -50px;
+            width: 150px;
+            height: 150px;
+            background: var(--primary-red);
+            filter: blur(80px);
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .form-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .form-header h1 {
+            font-size: 2rem;
+            margin-bottom: 10px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .form-header p {
+            color: var(--text-muted);
+        }
+
+        /* Mode Toggle */
+        .mode-toggle-container {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 8px;
+            display: flex;
+            margin-bottom: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .mode-btn {
+            border: none;
+            background: none;
+            color: var(--text-muted);
+            flex: 1;
+            padding: 10px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .mode-btn.active {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .identity-fields {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+            margin-bottom: 24px;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: all 0.4s ease;
+        }
+
+        .identity-fields.visible {
+            max-height: 100px;
+            opacity: 1;
+            margin-bottom: 24px;
+        }
+
+        .input-box {
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: white;
+            padding: 12px;
+            border-radius: 8px;
+            width: 100%;
+        }
+
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+
+        .category-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid var(--border-color);
+            color: var(--text-muted);
+            padding: 12px;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+            text-align: center;
+            font-size: 0.9rem;
+        }
+
+        .category-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .category-btn.active {
+            background: rgba(239, 68, 68, 0.1);
+            border-color: var(--primary-red);
+            color: var(--primary-red);
+            font-weight: 600;
+        }
+
+        textarea {
+            width: 100%;
+            height: 150px;
+            background: #27272a;
+            border: 1px solid #3f3f46;
+            color: white;
+            padding: 16px;
+            border-radius: 12px;
+            resize: none;
+            font-size: 1rem;
+            margin-bottom: 24px;
+            transition: border-color 0.2s;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: var(--primary-orange);
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: var(--gradient-main);
+            color: white;
+            padding: 16px;
+            border: none;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: transform 0.2s;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            filter: brightness(110%);
+        }
+
+        .success-overlay {
+            position: absolute;
+            inset: 0;
+            background: #18181b;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+    </style>
+</head>
+
+<body>
+    <!-- Background Shades/Glows (Added for Theme Consistency) -->
+    <div
+        style="position: fixed; top: -20%; left: -10%; width: 600px; height: 600px; background: radial-gradient(circle, rgba(239, 68, 68, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none; filter: blur(50px); z-index: -1;">
+    </div>
+    <div
+        style="position: fixed; bottom: -20%; right: -10%; width: 500px; height: 500px; background: radial-gradient(circle, rgba(249, 115, 22, 0.15) 0%, rgba(0,0,0,0) 70%); border-radius: 50%; pointer-events: none; filter: blur(50px); z-index: -1;">
+    </div>
+
+    <nav class="navbar relative-nav" style="justify-content: space-between; padding: 0 40px;">
+        <div class="logo" style="display: flex; align-items: baseline; gap: 2px;">
+            Nexus<span style="color: #22c55e;">.</span>
+        </div>
+        <button onclick="goHome()" class="nav-btn-secondary" style="margin-right: 0;">
+            <i class="fa-solid fa-arrow-right-from-bracket" style="margin-right: 8px;"></i> Return Home
+        </button>
+    </nav>
+
+    <div class="form-container">
+        <div class="feedback-card">
+            <div class="form-header">
+                <h1 id="portal-title">Student Voice</h1>
+                <p id="portal-subtitle">Your identity is anonymized. Your voice matters.</p>
+            </div>
+
+            <!-- Mode Toggle -->
+            <div class="mode-toggle-container">
+                <button class="mode-btn active" id="mode-anon" onclick="setMode('anonymous')">
+                    <i class="fa-solid fa-user-secret"></i> Anonymous
+                </button>
+                <button class="mode-btn" id="mode-verified" onclick="setMode('verified')">
+                    <i class="fa-solid fa-user-check"></i> Verified
+                </button>
+            </div>
+
+            <!-- Identity Fields (Hidden by default) -->
+            <div class="identity-fields" id="identity-section">
+                <input type="text" class="input-box" id="user-name" placeholder="Full Name">
+                <input type="text" class="input-box" id="user-id" placeholder="ID Number">
+            </div>
+
+            <label class="input-group">Select Category</label>
+            <div class="category-grid" id="category-selector">
+                <div class="category-btn active" data-value="course_content">Academics</div>
+                <div class="category-btn" data-value="facilities">Facilities</div>
+                <div class="category-btn" data-value="exams">Exams</div>
+                <div class="category-btn" data-value="harassment">Safety</div>
+                <div class="category-btn" data-value="other">Other</div>
+            </div>
+
+            <textarea id="feedback-text" placeholder="Describe your issue or suggestion here..."></textarea>
+
+            <button id="submit-btn" class="submit-btn">
+                Submit Feedback <i class="fa-solid fa-paper-plane"></i>
+            </button>
+
+            <!-- Success State (Hidden by default) -->
+            <div id="success-view" class="success-overlay hidden">
+                <i class="fa-solid fa-circle-check" style="font-size: 4rem; color: #22c55e; margin-bottom: 20px;"></i>
+                <h2 style="font-size: 1.5rem; margin-bottom: 10px;">Received</h2>
+                <p style="color: var(--text-muted); margin-bottom: 30px;">Your feedback has been encrypted and stored.
+                </p>
+                <button onclick="location.reload()" class="nav-btn-secondary">Submit Another</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Smooth Transition Home
+        function goHome() {
+            document.body.style.transition = "opacity 0.5s ease";
+            document.body.style.opacity = "0";
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 500);
+        }
+
+        const params = new URLSearchParams(window.location.search);
+        const currentRole = params.get('role') || 'Student';
+        let isVerified = false;
+
+        // Dynamic Header Update
+        document.title = `Nexus | ${currentRole} Portal`;
+
+        // Initialize UI based on Role
+        document.getElementById('portal-title').innerText = `${currentRole.toUpperCase()} PORTAL`;
+
+        if (currentRole === 'Faculty') {
+            document.getElementById('user-id').placeholder = 'Faculty ID';
+        } else if (currentRole === 'Staff') {
+            document.getElementById('user-id').placeholder = 'Staff ID';
+        }
+
+        function setMode(mode) {
+            const anonBtn = document.getElementById('mode-anon');
+            const verBtn = document.getElementById('mode-verified');
+            const identitySection = document.getElementById('identity-section');
+
+            if (mode === 'verified') {
+                isVerified = true;
+                anonBtn.classList.remove('active');
+                verBtn.classList.add('active');
+                identitySection.classList.add('visible');
+                document.getElementById('portal-subtitle').innerText = "Feedback will be linked to your identity.";
+            } else {
+                isVerified = false;
+                verBtn.classList.remove('active');
+                anonBtn.classList.add('active');
+                identitySection.classList.remove('visible');
+                document.getElementById('portal-subtitle').innerText = "Your identity is anonymized. Your voice matters.";
+            }
+        }
+
+        const categories = document.querySelectorAll('.category-btn');
+        let selectedCategory = 'course_content';
+
+        categories.forEach(btn => {
+            btn.addEventListener('click', () => {
+                categories.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                selectedCategory = btn.getAttribute('data-value');
+            });
+        });
+
+        document.getElementById('submit-btn').addEventListener('click', async () => {
+            const text = document.getElementById('feedback-text').value.trim();
+            const userName = document.getElementById('user-name').value.trim();
+            const userId = document.getElementById('user-id').value.trim();
+
+            if (!text) {
+                alert("Please describe your feedback.");
+                return;
+            }
+
+            if (isVerified && (!userName || !userId)) {
+                alert("Please provide Name and ID for verified feedback.");
+                return;
+            }
+
+            const btn = document.getElementById('submit-btn');
+            const originalText = btn.innerHTML;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Transmitting...';
+            btn.disabled = true;
+
+            const payload = {
+                category: selectedCategory,
+                text: text,
+                role: currentRole,
+                is_verified: isVerified,
+                user_id: isVerified ? userId : 'Anonymous',
+                user_name: isVerified ? userName : 'Anonymous'
+            };
+
+            try {
+                const response = await fetch('/api/feedback', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(payload)
+                });
+
+                if (response.ok) {
+                    document.getElementById('success-view').classList.remove('hidden');
+                } else {
+                    alert('Transmission Failed. System offline?');
+                }
+            } catch (error) {
+                console.error(error);
+                alert('Connection Error.');
+            } finally {
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+            }
+        });
+    </script>
+</body>
+
+</html>

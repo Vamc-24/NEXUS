@@ -47,6 +47,9 @@ def run_pipeline(storage):
             'sample_texts': texts[:3] # Store a few for reference
         })
 
+    # Sort clusters by count (frequency) descending
+    processed_clusters.sort(key=lambda x: x['count'], reverse=True)
+
     # Save Results
     print("Pipeline: Saving results...")
     storage.save_clusters(processed_clusters)

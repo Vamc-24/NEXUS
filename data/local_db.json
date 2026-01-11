@@ -1,509 +1,192 @@
 {
   "feedback": [
     {
-      "id": "a0f250ad-e372-42f9-9901-33fd13da70f1",
+      "id": "d7d91002-b6ec-4418-bd3b-9d590eb4bf67",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "course_content",
-      "text": "The explanation is not understandable",
-      "timestamp": "2026-01-09T13:15:56.157Z",
+      "text": "The new AI curriculum is fantastic! Loving the hands-on labs.",
+      "timestamp": "2026-01-10T18:42:58.250155",
       "processed": true
     },
     {
-      "id": "2e6e4f9e-f6cf-425b-9ee6-58bc49e3a8ec",
-      "category": "teaching_style",
-      "text": "The systems are not working well",
-      "timestamp": "2026-01-09T13:16:15.364Z",
-      "processed": true
-    },
-    {
-      "id": "28518fe7-8cfb-4d6c-8628-3039dfe9877f",
-      "category": "teaching_style",
-      "text": "NO internet",
-      "timestamp": "2026-01-09T13:16:26.472Z",
-      "processed": true
-    },
-    {
-      "id": "e6211d8f-fdec-4f74-a6ec-325fa3cbf812",
-      "category": "facilities",
-      "text": "There is no playground to play games and no environment like trees and grass",
-      "timestamp": "2026-01-09T13:17:00.920Z",
-      "processed": true
-    },
-    {
-      "id": "a5433465-e425-49b5-b31c-a304ccf41186",
-      "category": "teaching_style",
-      "text": "The lectures are too fast and hard to follow.",
-      "timestamp": "2026-01-09T18:58:09.632839",
-      "processed": true
-    },
-    {
-      "id": "3eef227f-aff2-4797-b84f-cf8af4ef54b9",
-      "category": "teaching_style",
-      "text": "I can't keep up with the professor's pace.",
-      "timestamp": "2026-01-09T18:58:11.674379",
-      "processed": true
-    },
-    {
-      "id": "456234f7-8698-4b1e-a97a-a09d97c65d34",
-      "category": "facilities",
-      "text": "The air conditioning in the lab is broken.",
-      "timestamp": "2026-01-09T18:58:13.732162",
-      "processed": true
-    },
-    {
-      "id": "0201ee48-459e-4082-b6ae-ebb111d17844",
-      "category": "facilities",
-      "text": "It's too hot in the computer lab to concentrate.",
-      "timestamp": "2026-01-09T18:58:15.785484",
-      "processed": true
-    },
-    {
-      "id": "0032f110-3dab-42cb-834d-9569fae2b3c8",
-      "category": "facilities",
-      "text": "no trees for fresh air",
-      "timestamp": "2026-01-09T13:31:13.396Z",
-      "processed": true
-    },
-    {
-      "id": "17fe32eb-16a8-43a0-9a99-cb7cb432fa04",
-      "category": "teaching_style",
-      "text": "The computers are not working properly",
-      "timestamp": "2026-01-09T13:38:54.872Z",
-      "processed": true
-    },
-    {
-      "id": "134e038d-8f76-4165-89bd-0a99fdeec68c",
-      "category": "facilities",
-      "text": "There is no ground to play games",
-      "timestamp": "2026-01-09T13:39:12.408Z",
-      "processed": true
-    },
-    {
-      "id": "3890363f-32c2-4ce0-a210-5bee4fa0e4ef",
-      "category": "facilities",
-      "text": "The internet is too slow and working properly some times\n",
-      "timestamp": "2026-01-09T13:39:40.584Z",
-      "processed": true
-    },
-    {
-      "id": "d3ea10f1-03e6-44c0-bed4-56a3fb016997",
+      "id": "ab406cf8-4bc1-4fe1-8bf9-51351b0ff921",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "course_content",
-      "text": "The teachers are going to fast and understanding the syllabus",
-      "timestamp": "2026-01-09T13:40:35.692Z",
+      "text": "Great explanation of Neural Networks in Prof. Smith's class.",
+      "timestamp": "2026-01-09T18:42:58.250183",
       "processed": true
     },
     {
-      "id": "5f0d56d1-ec39-4f62-b272-5e53a886cea5",
-      "category": "other",
-      "text": "Teaching is well, but it is fast while explaning",
-      "timestamp": "2026-01-09T13:41:47.735Z",
-      "processed": true
-    },
-    {
-      "id": "3255835e-e8c4-4665-b130-628451243c45",
-      "category": "teaching_style",
-      "text": "The lectures are too fast and hard to follow.",
-      "timestamp": "2026-01-09T19:14:07.692947",
-      "processed": true
-    },
-    {
-      "id": "5a54acab-aa4d-4216-b8f7-cef5e440a398",
-      "category": "teaching_style",
-      "text": "I can't keep up with the professor's pace.",
-      "timestamp": "2026-01-09T19:14:09.747565",
-      "processed": true
-    },
-    {
-      "id": "1e8f2352-30a7-4058-ab43-7a9c48c65f4d",
+      "id": "e491f356-f6ba-4733-aee0-6d3993ee1195",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "facilities",
-      "text": "The air conditioning in the lab is broken.",
-      "timestamp": "2026-01-09T19:14:11.817025",
+      "text": "The cafeteria food hygiene is really bad. I found an insect in my meal.",
+      "timestamp": "2026-01-11T18:42:58.250189",
       "processed": true
     },
     {
-      "id": "39164d17-2b43-4825-b67d-3997d2b81ae9",
+      "id": "4cae8b2d-d325-4e71-a012-5bfaf6879ab9",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "facilities",
-      "text": "It's too hot in the computer lab to concentrate.",
-      "timestamp": "2026-01-09T19:14:13.885129",
+      "text": "Food poisoning cases are rising. Please check the mess kitchen immediately.",
+      "timestamp": "2026-01-11T18:42:58.250192",
       "processed": true
     },
     {
-      "id": "086d4dd0-cf9d-4a30-9824-b4965acdf616",
-      "category": "teaching_style",
-      "text": "The lectures are too fast and hard to follow.",
-      "timestamp": "2026-01-09T19:22:26.598674",
-      "processed": true
-    },
-    {
-      "id": "7ac6e7f5-7b8a-481b-9d28-d6694b30f285",
-      "category": "teaching_style",
-      "text": "I can't keep up with the professor's pace.",
-      "timestamp": "2026-01-09T19:22:28.675497",
-      "processed": true
-    },
-    {
-      "id": "bf1dc067-4138-419d-b739-b5c2c6e448ee",
+      "id": "7a861c3c-5fab-4fb0-953e-6c0d5840ec20",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "facilities",
-      "text": "The air conditioning in the lab is broken.",
-      "timestamp": "2026-01-09T19:22:30.701124",
+      "text": "Mess food quality has degraded significantly this week.",
+      "timestamp": "2026-01-10T18:42:58.250195",
       "processed": true
     },
     {
-      "id": "c7be3fbd-82de-47e4-94cd-728d3910ab54",
+      "id": "d85936c2-d0ef-4e30-9889-d73d0e256592",
+      "role": "Faculty",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "facilities",
-      "text": "It's too hot in the computer lab to concentrate.",
-      "timestamp": "2026-01-09T19:22:32.776863",
+      "text": "Projector in Lab 3 is flickering constantly. Hinders lectures.",
+      "timestamp": "2026-01-08T18:42:58.250199",
       "processed": true
     },
     {
-      "id": "bd0a38da-9b37-4b78-980b-78a664b359af",
+      "id": "420a9fea-40b9-436a-a019-cd7d7f6ab00a",
+      "role": "Faculty",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "facilities",
-      "text": "no trees in the college environment",
-      "timestamp": "2026-01-09T13:55:05.605Z",
+      "text": "We need more whiteboard markers in the staff room.",
+      "timestamp": "2026-01-07T18:42:58.250202",
       "processed": true
     },
     {
-      "id": "a25d4a95-bf1e-4d18-b045-a081a766c690",
-      "category": "facilities",
-      "text": "noo internet and poor connection",
-      "timestamp": "2026-01-09T13:55:27.278Z",
+      "id": "66968f49-7b31-4da4-9169-52358bdac4d8",
+      "role": "Staff",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
+      "category": "harassment",
+      "text": "Corridor lights near the library are out. Safety concern at night.",
+      "timestamp": "2026-01-10T18:42:58.250205",
       "processed": true
     },
     {
-      "id": "605fb12d-5618-4870-8075-465a6a2b6d4e",
-      "category": "facilities",
-      "text": "No conectivity for the internet in the labs",
-      "timestamp": "2026-01-09T13:55:49.951Z",
-      "processed": true
-    },
-    {
-      "id": "6c81eff5-769f-4fe5-bb50-ce9cb76dfae7",
-      "category": "facilities",
-      "text": "The computers are not working properly",
-      "timestamp": "2026-01-09T13:56:10.377Z",
-      "processed": true
-    },
-    {
-      "id": "3460135a-3cea-4fb6-af7d-af16ef22fc0b",
+      "id": "d7f46b4d-7285-4d5f-8ea9-b25536300e78",
+      "role": "Student",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
       "category": "exams",
-      "text": "Results are getting late to release",
-      "timestamp": "2026-01-09T13:56:34.924Z",
+      "text": "Exam schedule is too tight. Two major papers in one day.",
+      "timestamp": "2026-01-06T18:42:58.250208",
       "processed": true
     },
     {
-      "id": "5ffa39f9-6c46-4fd2-a28d-b643e045276e",
-      "category": "course_content",
-      "text": "The syllabus is going to fast",
-      "timestamp": "2026-01-09T13:56:50.797Z",
-      "processed": true
-    },
-    {
-      "id": "c99af450-93c6-4a09-a8c2-b4b4eb2077b5",
-      "category": "course_content",
-      "text": "Teachers are not properly teaching",
-      "timestamp": "2026-01-09T13:57:15.218Z",
-      "processed": true
-    },
-    {
-      "id": "62ed62a8-1d34-4148-991f-ce36ad3d5fac",
-      "category": "teaching_style",
-      "text": "Good, but it should be improved",
-      "timestamp": "2026-01-09T13:57:32.125Z",
-      "processed": true
-    },
-    {
-      "id": "27f07971-e556-4858-88ad-38982eb06889",
-      "category": "other",
-      "text": "ragging by seniors",
-      "timestamp": "2026-01-09T13:59:35.230Z",
-      "processed": true
+      "id": "66f78159-1c6f-43f4-bdde-780cdb04a457",
+      "role": "Faculty",
+      "user_id": "Anonymous",
+      "user_name": "Anonymous",
+      "is_verified": false,
+      "institute_id": "Default",
+      "session": "Default Session",
+      "category": "harassment",
+      "text": "there is no safety on the roads of campus",
+      "timestamp": "2026-01-11T18:50:49.208438",
+      "processed": false
     }
   ],
   "results": [
     {
-      "id": "2096dee7-0dbb-4f2b-9f46-3fbb57b3e13b",
-      "timestamp": "2026-01-09T18:47:12.450628",
+      "id": "044697d8-928f-4a7a-a9af-40360f3d5c44",
+      "timestamp": "2026-01-11T18:42:58.250212",
       "clusters": [
         {
-          "theme": "Cluster 3",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The explanation is not understandable...",
+          "theme": "Cafeteria Hygiene & Safety",
+          "count": 12,
+          "problem_statement": "Students report severe hygiene issues in the cafeteria, including foreign objects in food and suspected food poisoning incidents.",
           "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The explanation is not understandable"
+            {
+              "solution_title": "Emergency Health Audit & Vendor Review",
+              "sentiment": "Negative",
+              "steps": [
+                "Immediate surprise inspection of kitchen facilities.",
+                "Suspend current vendor contract pending review.",
+                "Implement mandatory daily hygiene logs."
+              ],
+              "total_estimated_cost": "500"
+            }
           ]
         },
         {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The systems are not working well...",
+          "theme": "Lab Infrastructure Maintenance",
+          "count": 8,
+          "problem_statement": "Faculty and students are facing disruptions due to faulty projectors and lack of maintenance in Computer Labs.",
           "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The systems are not working well"
+            {
+              "solution_title": "Equipment Upgrade & Rapid Repair Protocol",
+              "sentiment": "Negative",
+              "steps": [
+                "Replace bulbs in Lab 3 projectors.",
+                "Establish a 24-hour IT support ticket SLA.",
+                "Procure backup display units."
+              ],
+              "total_estimated_cost": "2,200"
+            }
           ]
         },
         {
-          "theme": "Cluster 2",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: NO internet...",
+          "theme": "Curriculum Satisfaction",
+          "count": 25,
+          "problem_statement": "High student engagement reported in the new AI & Machine Learning specialized tracks.",
           "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "NO internet",
-            "There is no playground to play games and no environment like trees and grass"
+            {
+              "solution_title": "Expand Elective Offerings",
+              "sentiment": "Positive",
+              "steps": [
+                "Introduce Advanced NLP module next semester.",
+                "Organize hackathon with industry partners."
+              ],
+              "total_estimated_cost": "1,000"
+            }
           ]
         }
       ]
-    },
+    }
+  ],
+  "institutes": [
     {
-      "id": "0f183e77-bf11-4a8b-9145-fc52952470dc",
-      "timestamp": "2026-01-09T18:58:20.397657",
-      "clusters": [
-        {
-          "theme": "Cluster 3",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The lectures are too fast and hard to follow."
-          ]
-        },
-        {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "I can't keep up with the professor's pace."
-          ]
-        },
-        {
-          "theme": "Cluster 2",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The air conditioning in the lab is broken.",
-            "It's too hot in the computer lab to concentrate."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "a3735762-d914-4dc6-8fb9-c5f3961496f8",
-      "timestamp": "2026-01-09T19:08:14.600015",
-      "clusters": [
-        {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: no trees for fresh air...",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "no trees for fresh air"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "814c2849-9c1f-4b6d-a6fd-db1bfbcb1ea1",
-      "timestamp": "2026-01-09T19:11:54.538034",
-      "clusters": [
-        {
-          "theme": "Cluster 3",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The computers are not working properly...",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The computers are not working properly",
-            "The internet is too slow and working properly some times\n"
-          ]
-        },
-        {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: There is no ground to play games...",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "There is no ground to play games"
-          ]
-        },
-        {
-          "theme": "Cluster 2",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The teachers are going to fast and understanding t...",
-          "solutions": [
-            "Conduct a survey to gather more details.",
-            "Organize a town hall meeting with students.",
-            "Review the curriculum/facilities based on feedback."
-          ],
-          "sample_texts": [
-            "The teachers are going to fast and understanding the syllabus",
-            "Teaching is well, but it is fast while explaning"
-          ]
-        }
-      ]
-    },
-    {
-      "id": "799c57b0-74a5-4b10-abc2-f6b4a3501462",
-      "timestamp": "2026-01-09T19:14:19.235065",
-      "clusters": [
-        {
-          "theme": "Cluster 3",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
-          "solutions": [
-            "Conduct a focused student survey to gather more specific details.",
-            "Organize a town hall meeting to discuss this issue with students.",
-            "Form a student-faculty committee to address these concerns."
-          ],
-          "sample_texts": [
-            "The lectures are too fast and hard to follow."
-          ]
-        },
-        {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
-          "solutions": [
-            "Conduct a focused student survey to gather more specific details.",
-            "Organize a town hall meeting to discuss this issue with students.",
-            "Form a student-faculty committee to address these concerns."
-          ],
-          "sample_texts": [
-            "I can't keep up with the professor's pace."
-          ]
-        },
-        {
-          "theme": "Cluster 2",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
-          "solutions": [
-            "Conduct a focused student survey to gather more specific details.",
-            "Organize a town hall meeting to discuss this issue with students.",
-            "Schedule immediate maintenance check for facilities."
-          ],
-          "sample_texts": [
-            "The air conditioning in the lab is broken.",
-            "It's too hot in the computer lab to concentrate."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "cbfe7a8e-16c2-4d97-aa07-b0e7d349fbda",
-      "timestamp": "2026-01-09T19:22:37.675027",
-      "clusters": [
-        {
-          "theme": "Cluster 3",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The lectures are too fast and hard to follow....",
-          "solutions": [
-            "Implement a 'pause-and-ask' policy during lectures and provide recorded sessions for review."
-          ],
-          "sample_texts": [
-            "The lectures are too fast and hard to follow."
-          ]
-        },
-        {
-          "theme": "Cluster 1",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: I can't keep up with the professor's pace....",
-          "solutions": [
-            "Implement a 'pause-and-ask' policy during lectures and provide recorded sessions for review."
-          ],
-          "sample_texts": [
-            "I can't keep up with the professor's pace."
-          ]
-        },
-        {
-          "theme": "Cluster 2",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: The air conditioning in the lab is broken....",
-          "solutions": [
-            "Dispatch facilities team for immediate repair and schedule preventive maintenance checks."
-          ],
-          "sample_texts": [
-            "The air conditioning in the lab is broken.",
-            "It's too hot in the computer lab to concentrate."
-          ]
-        }
-      ]
-    },
-    {
-      "id": "930ad403-8ce1-468a-85ba-172c3b48748b",
-      "timestamp": "2026-01-09T19:29:43.604494",
-      "clusters": [
-        {
-          "theme": "Cluster 1",
-          "count": 6,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: no trees in the college environment...",
-          "solutions": [
-            "Allocate budget for green space development and outdoor student recreational areas."
-          ],
-          "sample_texts": [
-            "no trees in the college environment",
-            "The computers are not working properly",
-            "Results are getting late to release"
-          ]
-        },
-        {
-          "theme": "Cluster 3",
-          "count": 2,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: noo internet and poor connection...",
-          "solutions": [
-            "Upgrade the campus Wi-Fi infrastructure with high-density access points in study areas."
-          ],
-          "sample_texts": [
-            "noo internet and poor connection",
-            "No conectivity for the internet in the labs"
-          ]
-        },
-        {
-          "theme": "Cluster 2",
-          "count": 1,
-          "problem_statement": "Mock Problem Statement: Students are expressing concerns regarding: ragging by seniors...",
-          "solutions": [
-            "Initiate a student-faculty joint committee to investigate and address these specific concerns."
-          ],
-          "sample_texts": [
-            "ragging by seniors"
-          ]
-        }
-      ]
+      "id": "AITS",
+      "name": "AITS",
+      "address": "tpt",
+      "email": "aitsadmin@edu",
+      "created_at": "2026-01-11T18:50:13.400580"
     }
   ]
 }

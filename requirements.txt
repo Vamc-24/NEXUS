@@ -6,3 +6,5 @@ numpy
 google-cloud-aiplatform
 google-cloud-firestore
 python-dotenv
+fpdf
+python-docx
