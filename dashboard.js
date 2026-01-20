@@ -160,45 +160,72 @@ window.addEventListener('popstate', () => {
 // 2. Data Fetching & Rendering
 // ---------------------------------------------------------
 
+// --- DEMO DATA START ---
+const DEMO_DATA = {
+    clusters: [
+        {
+            theme: "Infrastructure / Internet",
+            problem_statement: "Students consistently report slow internet causing disruption in research.",
+            solutions: [{
+                solution_title: "Campus-wide Fiber Backbone Upgrade",
+                steps: ["Audit current bandwidth", "Install high-capacity fiber lines", "Deploy Wi-Fi 6 Access Points"],
+                total_estimated_cost: "15,00,000",
+                resources: { Investment: "15L", Labor: "Contractor", Support: "IT Team" }
+            }]
+        },
+        {
+            theme: "Facilities / Canteen",
+            problem_statement: "Complaints about hygiene standards and limited healthy food options.",
+            solutions: [{
+                solution_title: "Canteen Modernization Plan",
+                steps: ["Hire certified quality inspectors", "Introduce nutritious menu", "Digital payment integration"],
+                total_estimated_cost: "5,00,000",
+                resources: { Investment: "5L", Labor: "Staff", Support: "Student Body" }
+            }]
+        },
+        {
+            theme: "Academic / Scheduling",
+            problem_statement: "Clash between bus timings and extra classes affecting attendance.",
+            solutions: [{
+                solution_title: "Transport Route Optimization",
+                steps: ["Analyze student density maps", "Adjust departure by 30 mins", "Add 2 express routes"],
+                total_estimated_cost: "20,000",
+                resources: { Investment: "Fuel", Labor: "Drivers", Support: "Admin" }
+            }]
+        }
+    ]
+};
+// --- DEMO DATA END ---
+
 async function fetchLatestResults() {
     try {
         const instituteId = sessionStorage.getItem('institute_id');
         const query = instituteId ? `?institute_id=${instituteId}` : '';
         const response = await fetch(`/api/results${query}`);
         const data = await response.json();
+
         if (data && data.clusters && data.clusters.length > 0) {
             latestResults = data;
             renderDashboard(data);
         } else {
-            // Handle empty state explicitly so UI initializes
-            latestResults = { clusters: [] };
-            renderDashboard({ clusters: [] });
+            console.log("Using Demo Data");
+            latestResults = DEMO_DATA;
+            renderDashboard(DEMO_DATA);
+
+            // Demo Banner
+            const container = document.querySelector('.dashboard-container');
+            if (container && !document.getElementById('demo-banner')) {
+                const banner = document.createElement('div');
+                banner.id = 'demo-banner';
+                banner.style.cssText = "background: rgba(245, 158, 11, 0.1); color: #f59e0b; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(245, 158, 11, 0.2); font-size: 0.9rem;";
+                banner.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <b>Demo Mode Active:</b> Showing sample data because no live analysis was found. Submit valid feedback to see real insights.';
+                container.prepend(banner);
+            }
         }
-
-
     } catch (e) {
         console.log("Awaiting Analysis...", e);
     } finally {
-        // Always try to fetch stats for dynamic real-time data
         fetchStats();
-    }
-}
-
-async function fetchStats() {
-    try {
-        const instituteId = sessionStorage.getItem('institute_id');
-        const query = instituteId ? `?institute_id=${instituteId}` : '';
-        const response = await fetch(`/api/stats${query}`);
-        const stats = await response.json();
-        renderCharts(stats);
-
-        // Update Total Volume KPI from direct stats if available
-        if (stats.total !== undefined) {
-            const kpiTotal = document.getElementById('kpi-total');
-            if (kpiTotal) kpiTotal.innerText = stats.total.toLocaleString();
-        }
-    } catch (e) {
-        console.error("Failed to fetch stats", e);
     }
 }
 
@@ -206,6 +233,40 @@ function renderDashboard(data) {
     updateKPIS(data);
     renderResults(data);
     renderCriticalAlerts(data);
+}
+
+const DEMO_STATS = {
+    total: 128,
+    roles: { Student: 85, Faculty: 30, Staff: 13 },
+    categories: { Infrastructure: 45, Academic: 35, Facilities: 30, Transport: 18 }
+};
+
+async function fetchStats() {
+    try {
+        const instituteId = sessionStorage.getItem('institute_id');
+        const query = instituteId ? `?institute_id=${instituteId}` : '';
+        const response = await fetch(`/api/stats${query}`);
+        const stats = await response.json();
+
+        if (stats && stats.total > 0) {
+            renderCharts(stats);
+            if (stats.total !== undefined) {
+                const kpiTotal = document.getElementById('kpi-total');
+                if (kpiTotal) kpiTotal.innerText = stats.total.toLocaleString();
+            }
+        } else {
+            console.log("Using Demo Stats");
+            renderCharts(DEMO_STATS);
+            const kpiTotal = document.getElementById('kpi-total');
+            if (kpiTotal) kpiTotal.innerText = DEMO_STATS.total.toLocaleString();
+
+            const kpiUnique = document.getElementById('kpi-unique');
+            if (kpiUnique) kpiUnique.innerText = "3";
+        }
+    } catch (e) {
+        console.error("Failed to fetch stats", e);
+        renderCharts(DEMO_STATS);
+    }
 }
 
 // ---------------------------------------------------------
