@@ -204,6 +204,11 @@ class FirestoreStorage(StorageBase):
         
         # Initialize with service account
         import os
+        # Make path absolute relative to this file
+        base_dir = os.path.dirname(os.path.abspath(__file__))
+        if not os.path.isabs(key_path):
+             key_path = os.path.join(base_dir, key_path)
+
         if os.path.exists(key_path):
             from google.oauth2 import service_account
             creds = service_account.Credentials.from_service_account_file(key_path)
@@ -230,12 +235,18 @@ class FirestoreStorage(StorageBase):
         return self.db.collection('nexus_institutes')
 
     def _get_data_collection(self, institute_id, type_):
-        """Dynamic collection for each institute"""
+        """Dynamic sub-collection for each institute"""
         if not self.db: return None
+        
+        # Valid Institute ID Required for Relation
         if not institute_id or institute_id == 'Default':
-             # Fallback for testing/default
-            return self.db.collection(f'institute_default_{type_}')
-        return self.db.collection(f'institute_{institute_id}_{type_}')
+             # If "Default" or None, strictly putting it in a separate orphan collection
+             # OR we could create a "Default" document in nexus_institutes.
+             # Let's use a "Default" doc to keep the relation consistent.
+             institute_id = 'Default'
+
+        # Reference: nexus_institutes/INST_ID/type_ (feedback/results)
+        return self.db.collection('nexus_institutes').document(institute_id).collection(type_)
 
     def register_institute(self, data):
         if not self.db: raise RuntimeError("Database not connected. Please add firebase_key.json")
@@ -287,7 +298,9 @@ class FirestoreStorage(StorageBase):
 
     def add_feedback(self, data):
         if not self.db: return {'id': 'local-mock', 'status': 'no-db'}
-        inst_id = data.get('institute_id', 'Default')
+        inst_id = data.get('institute_id')
+        if not inst_id: inst_id = 'Default'
+            
         col_ref = self._get_data_collection(inst_id, 'feedback')
         
         record = {
@@ -300,7 +313,8 @@ class FirestoreStorage(StorageBase):
             'category': data.get('category'),
             'text': data.get('text'),
             'timestamp': data.get('timestamp') or datetime.now().isoformat(),
-            'processed': False
+            'processed': False,
+            'status': 'pending'  # Explicit status field
         }
         col_ref.add(record)
         return record

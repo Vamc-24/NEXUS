@@ -346,11 +346,12 @@
                     Intelligence</h1>
             </div>
             <div style="display: flex; align-items: center; gap: 20px;">
-                <!-- Updated System Status: Green Dot Only (Removing as per user request to remove dot beside name? Or keeping independent dot?) 
-                     User said: "Remove the green dot beside nexus institute on the header."
-                     The snippet had a TAG with a green dot next to the name div. I will remove the tag entirely if they mean that. 
-                     "Remove the green dot beside nexus institute".
-                     I will remove the status tag span at line 350-353. -->
+                <!-- Analyze Button -->
+                <button class="btn-sm" onclick="triggerAnalysis()"
+                    style="background: var(--primary-red); color: white; border: none; font-weight: 700; padding: 10px 20px;">
+                    <i class="fa-solid fa-microchip"></i> Analyze Feedback
+                </button>
+
                 <div style="text-align: right;">
                     <h4 style="margin: 0; font-size: 0.9rem;" id="header-role-label">ADMIN</h4>
                     <span style="font-size: 0.75rem; color: var(--text-muted);" id="dashboard-institute-name">Institute

@@ -452,6 +452,42 @@ async function exportReport(type) {
     }
 }
 
+async function triggerAnalysis() {
+    const btn = event.currentTarget;
+    const oldText = btn.innerHTML;
+    const instituteId = sessionStorage.getItem('institute_id');
+
+    if (!instituteId) return alert("Institute ID Not Found. Please Relogin.");
+
+    btn.innerHTML = `<i class="fa-solid fa-circle-notch fa-spin"></i> Analyizing...`;
+    btn.disabled = true;
+
+    try {
+        const response = await fetch('/api/process', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ institute_id: instituteId })
+        });
+
+        const data = await response.json();
+        if (response.ok) {
+            // Reload Dashboard Data
+            await fetchLatestResults();
+            await fetchStats();
+            alert("Analysis Complete! New insights generated.");
+        } else {
+            alert("Analysis Failed: " + (data.error || "Unknown Error"));
+        }
+    } catch (e) {
+        console.error(e);
+        alert("Server Error during analysis.");
+    } finally {
+        btn.innerHTML = oldText;
+        btn.disabled = false;
+    }
+}
+
+
 function logout() {
     sessionStorage.clear();
     window.location.href = '/';

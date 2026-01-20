@@ -312,7 +312,8 @@
 
         const params = new URLSearchParams(window.location.search);
         const currentRole = params.get('role') || 'Student';
-        const instituteId = params.get('institute_id') || 'Default'; // Capture Institute ID
+        // Try URL param -> Session Storage -> Default
+        const instituteId = params.get('institute_id') || sessionStorage.getItem('institute_id') || 'Default';
         let isVerified = false;
 
         // Dynamic Header Update
