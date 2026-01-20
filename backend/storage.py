@@ -222,4 +222,54 @@ class SQLAlchemyStorage(StorageBase):
             'students': active_students
         }
 
+    def seed_db(self):
+        """Populates the database with initial default data if empty."""
+        try:
+            # 1. Create Default Institute
+            default_inst = Institute.query.filter_by(id='Default').first()
+            if not default_inst:
+                print("Seeding Default Institute...")
+                default_inst = Institute(
+                    id='Default',
+                    name='Nexus Default Institute',
+                    admin_id='admin',
+                    password='admin', # In prod, hash this
+                    created_at=datetime.now().isoformat()
+                )
+                self.db.session.add(default_inst)
+            
+            # 2. Add Dummy Feedback if Default has none
+            fb_count = Feedback.query.filter_by(institute_id='Default').count()
+            if fb_count == 0:
+                print("Seeding Dummy Feedback...")
+                dummy_data = [
+                    ("The wifi speed in the library is too slow for research.", "Infrastructure", "Student"),
+                    ("Canteen food hygiene needs improvement.", "Facilities", "Student"),
+                    ("Projector in Lab 3 is malfunctioning.", "Infrastructure", "Faculty"),
+                    ("Bus service timings are not aligned with extra classes.", "Transport", "Student"),
+                    ("Need more water coolers in the main block.", "Facilities", "Student")
+                ]
+                for text, cat, role in dummy_data:
+                    fb = Feedback(
+                        id=str(uuid.uuid4()),
+                        institute_id='Default',
+                        text=text,
+                        category=cat,
+                        role=role,
+                        user_id='Anonymous',
+                        user_name='Anonymous',
+                        is_verified=False,
+                        timestamp=datetime.now().isoformat(),
+                        processed=False,
+                        status='pending',
+                        session='2024-SEM1'
+                    )
+                    self.db.session.add(fb)
+            
+            self.db.session.commit()
+            print("Database Seeding Completed.")
+        except Exception as e:
+            print(f"Seeding Error: {e}")
+            self.db.session.rollback()
+
 # Factory removed - app.py should instantiate

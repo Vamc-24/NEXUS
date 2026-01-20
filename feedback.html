@@ -389,8 +389,9 @@
                 institute_id: instituteId // Send to Backend
             };
 
-            if (instituteId === 'Default' || !instituteId) {
-                alert('Error: No Institute ID found. Please use a valid feedback link provided by your admin.');
+            // Allow 'Default' for testing
+            if (!instituteId) {
+                alert('Error: No Institute ID found. Please use a valid feedback link.');
                 btn.innerHTML = originalText;
                 btn.disabled = false;
                 return;
