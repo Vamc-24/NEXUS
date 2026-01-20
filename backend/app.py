@@ -8,17 +8,28 @@ import uuid
 # Add project root to path so we can import ai_module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-from backend.storage import get_storage
-from ai_module.pipeline import run_pipeline
+from flask_sqlalchemy import SQLAlchemy
+from backend.storage import db, SQLAlchemyStorage
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 CORS(app)
 
-@app.route('/')
-def index():
-    return app.send_static_file('index.html')
+# Database Config
+# "postgres://..." needed for modern SQLAlchemy (Render provides "postgres://")
+uri = os.environ.get('DATABASE_URL', 'sqlite:///nexus.db')
+if uri.startswith("postgres://"):
+    uri = uri.replace("postgres://", "postgresql://", 1)
 
-storage = get_storage()
+app.config['SQLALCHEMY_DATABASE_URI'] = uri
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+
+db.init_app(app)
+
+# Create Tables (Local Dev)
+with app.app_context():
+    db.create_all()
+
+storage = SQLAlchemyStorage(db)
 
 @app.route('/api/feedback', methods=['POST'])
 def submit_feedback():

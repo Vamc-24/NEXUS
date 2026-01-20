@@ -8,3 +8,6 @@ google-cloud-firestore
 python-dotenv
 fpdf
 python-docx
+gunicorn
+flask-sqlalchemy
+psycopg2-binary

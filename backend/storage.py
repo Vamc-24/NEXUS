@@ -1,391 +1,190 @@
 import json
-import os
 import uuid
 from datetime import datetime
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import joinedload
 
-# Optional: Google Cloud Firestore
-try:
-    from google.cloud import firestore
-    FIRESTORE_AVAILABLE = True
-except ImportError:
-    FIRESTORE_AVAILABLE = False
+db = SQLAlchemy()
 
+# --- Models ---
+class Institute(db.Model):
+    __tablename__ = 'institutes'
+    id = db.Column(db.String(50), primary_key=True)
+    name = db.Column(db.String(100), nullable=False)
+    address = db.Column(db.Text)
+    email = db.Column(db.String(100))
+    admin_id = db.Column(db.String(50))
+    password = db.Column(db.String(200)) # Simple text for now, should be hash
+    created_at = db.Column(db.String(50))
+
+    # Relationships
+    feedbacks = db.relationship('Feedback', backref='institute', lazy=True)
+    results = db.relationship('Result', backref='institute', lazy=True)
+
+class Feedback(db.Model):
+    __tablename__ = 'feedback'
+    id = db.Column(db.String(50), primary_key=True)
+    institute_id = db.Column(db.String(50), db.ForeignKey('institutes.id'), nullable=False)
+    text = db.Column(db.Text)
+    category = db.Column(db.String(50))
+    role = db.Column(db.String(50))
+    user_id = db.Column(db.String(50))
+    user_name = db.Column(db.String(100))
+    is_verified = db.Column(db.Boolean, default=False)
+    timestamp = db.Column(db.String(50))
+    processed = db.Column(db.Boolean, default=False)
+    status = db.Column(db.String(20))
+    session = db.Column(db.String(50))
+
+class Result(db.Model):
+    __tablename__ = 'results'
+    id = db.Column(db.String(50), primary_key=True)
+    institute_id = db.Column(db.String(50), db.ForeignKey('institutes.id'), nullable=False)
+    clusters = db.Column(db.Text) # JSON String
+    timestamp = db.Column(db.String(50))
+
+# --- Abstract Base ---
 class StorageBase:
-    def add_feedback(self, data):
-        raise NotImplementedError
-    
-    def get_unprocessed_feedback(self):
-        raise NotImplementedError
-    
-    def mark_processed(self, feedback_ids):
-        raise NotImplementedError
-        
-    def save_clusters(self, clusters):
-        raise NotImplementedError
-    
-    def get_latest_results(self):
-        raise NotImplementedError
+    def add_feedback(self, data): raise NotImplementedError
+    def get_unprocessed_feedback(self, institute_id=None): raise NotImplementedError
+    def mark_processed(self, feedback_ids): raise NotImplementedError
+    def save_clusters(self, institute_id, clusters): raise NotImplementedError
+    def get_latest_results(self, institute_id=None): raise NotImplementedError
+    def register_institute(self, data): raise NotImplementedError
+    def verify_institute(self, institute_id): raise NotImplementedError
+    def register_admin(self, institute_id, admin_id, password): raise NotImplementedError
+    def verify_admin(self, admin_id, password): raise NotImplementedError
+    def get_feedback_stats(self, institute_id=None): raise NotImplementedError
+
+# --- Implementation ---
+class SQLAlchemyStorage(StorageBase):
+    def __init__(self, db_instance):
+        self.db = db_instance
 
     def register_institute(self, data):
-        raise NotImplementedError
-
-    def verify_institute(self, institute_id):
-        raise NotImplementedError
-
-class LocalStorage(StorageBase):
-    def __init__(self, data_file='data/local_db.json'):
-        self.data_file = data_file
-        self.ensure_data_file()
-
-    def ensure_data_file(self):
-        if not os.path.exists(os.path.dirname(self.data_file)):
-            os.makedirs(os.path.dirname(self.data_file), exist_ok=True)
-        if not os.path.exists(self.data_file):
-            with open(self.data_file, 'w') as f:
-                json.dump({'feedback': [], 'results': [], 'institutes': []}, f)
-
-    def _read_data(self):
-        with open(self.data_file, 'r') as f:
-            return json.load(f)
-
-    def _write_data(self, data):
-        with open(self.data_file, 'w') as f:
-            json.dump(data, f, indent=2)
-
-    def add_feedback(self, data):
-        db = self._read_data()
-        record = {
-            'id': str(uuid.uuid4()),
-            'role': data.get('role', 'Anonymous'),
-            'user_id': data.get('user_id', 'N/A'),
-            'user_name': data.get('user_name', 'Anonymous'),
-            'is_verified': data.get('is_verified', False),
-            'is_verified': data.get('is_verified', False),
-            'institute_id': data.get('institute_id', 'Default'), 
-            'session': data.get('session', 'Default Session'),
-            'category': data.get('category'),
-            'text': data.get('text'),
-            'timestamp': data.get('timestamp') or datetime.now().isoformat(),
-            'processed': False
-        }
-        db['feedback'].append(record)
-        self._write_data(db)
-        return record
-
-    def get_unprocessed_feedback(self, institute_id=None):
-        db = self._read_data()
-        all_feedback = db.get('feedback', [])
-        
-        filtered = []
-        for f in all_feedback:
-            # If institute_id is provided, only include matches.
-            # If not provided (e.g. global admin?), maybe include all? 
-            # For now, strict filtering if ID is passed.
-            if f.get('processed'):
-                continue
-                
-            if institute_id and f.get('institute_id') != institute_id:
-                continue
-                
-            filtered.append(f)
-            
-        return filtered
-
-    def mark_processed(self, feedback_ids):
-        db = self._read_data()
-        for f in db['feedback']:
-            if f['id'] in feedback_ids:
-                f['processed'] = True
-        self._write_data(db)
-
-    def save_clusters(self, clusters, institute_id=None):
-        db = self._read_data()
-        result_record = {
-            'id': str(uuid.uuid4()),
-            'institute_id': institute_id,
-            'timestamp': datetime.now().isoformat(),
-            'clusters': clusters
-        }
-        db['results'].append(result_record)
-        self._write_data(db)
-
-    def get_latest_results(self, institute_id=None):
-        db = self._read_data()
-        results = db.get('results', [])
-        
-        # Filter by institute
-        if institute_id:
-            results = [r for r in results if r.get('institute_id') == institute_id]
-            
-        if not results:
-            return {'clusters': []}
-        return results[-1]
-
-    def register_institute(self, data):
-        db = self._read_data()
-        if 'institutes' not in db:
-            db['institutes'] = []
-            
-        institute_id = data.get('code') # Use provided code or generate one
-        if not institute_id:
-            institute_id = f"NEXUS-{str(uuid.uuid4())[:8].upper()}"
-            
-        record = {
-            'id': institute_id,
-            'name': data.get('name'),
-            'address': data.get('address'),
-            'email': data.get('email'),
-            'admin_id': data.get('admin_id'),
-            'password': data.get('password'),
-            'created_at': datetime.now().isoformat()
-        }
-        db['institutes'].append(record)
-        self._write_data(db)
-        return institute_id
-
-    def verify_institute(self, institute_id):
-        db = self._read_data()
-        institutes = db.get('institutes', [])
-        for inst in institutes:
-            if inst['id'] == institute_id:
-                return {'valid': True, 'name': inst['name']}
-        return {'valid': False}
-
-    def register_admin(self, institute_id, admin_id, password):
-        db = self._read_data()
-        institutes = db.get('institutes', [])
-        for inst in institutes:
-            if inst['id'] == institute_id:
-                inst['admin_id'] = admin_id
-                inst['password'] = password
-                self._write_data(db)
-                return True
-        return False
-
-    def verify_admin(self, admin_id, password):
-        db = self._read_data()
-        institutes = db.get('institutes', [])
-        for inst in institutes:
-            if inst.get('admin_id') == admin_id and inst.get('password') == password:
-                return {'valid': True, 'institute_name': inst['name'], 'institute_id': inst['id']}
-        return {'valid': False}
-
-    def get_feedback_stats(self, institute_id=None):
-        db = self._read_data()
-        feedback = db.get('feedback', [])
-        
-        roles = {}
-        categories = {}
-        
-        count = 0
-        for f in feedback:
-            if institute_id and f.get('institute_id') != institute_id:
-                continue
-                
-            count += 1
-            # Count Roles
-            r = f.get('role', 'Unknown')
-            roles[r] = roles.get(r, 0) + 1
-            
-            # Count Categories
-            c = f.get('category', 'Other')
-            categories[c] = categories.get(c, 0) + 1
-            
-        return {
-            'total': count,
-            'roles': roles,
-            'categories': categories
-        }
-
-class FirestoreStorage(StorageBase):
-    def __init__(self, key_path='firebase_key.json'):
-        if not FIRESTORE_AVAILABLE:
-            raise ImportError("Firestore libraries not installed or firebase_key.json not found.")
-        
-        # Initialize with service account
-        import os
-        # Make path absolute relative to this file
-        base_dir = os.path.dirname(os.path.abspath(__file__))
-        if not os.path.isabs(key_path):
-             key_path = os.path.join(base_dir, key_path)
-
-        if os.path.exists(key_path):
-            from google.oauth2 import service_account
-            creds = service_account.Credentials.from_service_account_file(key_path)
-            self.db = firestore.Client(credentials=creds)
-            print("Firestore Connected via Service Account Key")
-        else:
-            try:
-                # Fallback for environment-based auth (e.g. deployed or gcloud auth login)
-                self.db = firestore.Client()
-                print("Firestore Connected via Default Credentials")
-            except Exception as e:
-                print("!"*50)
-                print(f"FIRESTORE CONNECTION FAILED: {e}")
-                print("Please place 'firebase_key.json' in the backend/ folder.")
-                print("!"*50)
-                # Re-raise or fallback? User said "new data should store in firebase", so maybe raising is appropriate
-                # but crashing the server prevents viewing the UI instructions.
-                # Let's set db to None and handle it in methods?
-                self.db = None
-
-    def _get_app_collection(self):
-        """Global app data (registrations)"""
-        if not self.db: return None
-        return self.db.collection('nexus_institutes')
-
-    def _get_data_collection(self, institute_id, type_):
-        """Dynamic sub-collection for each institute"""
-        if not self.db: return None
-        
-        # Valid Institute ID Required for Relation
-        if not institute_id or institute_id == 'Default':
-             # If "Default" or None, strictly putting it in a separate orphan collection
-             # OR we could create a "Default" document in nexus_institutes.
-             # Let's use a "Default" doc to keep the relation consistent.
-             institute_id = 'Default'
-
-        # Reference: nexus_institutes/INST_ID/type_ (feedback/results)
-        return self.db.collection('nexus_institutes').document(institute_id).collection(type_)
-
-    def register_institute(self, data):
-        if not self.db: raise RuntimeError("Database not connected. Please add firebase_key.json")
-        # 1. Create a global record
-        institutes_ref = self._get_app_collection()
-        
-        # Check if exists
         code = data.get('code')
         if not code:
-           code = f"INST_{str(uuid.uuid4())[:6].upper()}"
+            code = f"INST_{str(uuid.uuid4())[:6].upper()}"
 
-        # Query to check duplicates (optional but good practice)
-        docs = institutes_ref.where('id', '==', code).stream()
-        if list(docs):
+        existing = Institute.query.filter_by(id=code).first()
+        if existing:
             raise ValueError("Institute ID already exists")
 
-        record = {
-            'id': code,
-            'name': data.get('name'),
-            'address': data.get('address'),
-            'email': data.get('email'),
-            'admin_id': data.get('admin_id'),
-            'password': data.get('password'), # In prod, hash this!
-            'created_at': datetime.now().isoformat()
-        }
-        
-        institutes_ref.add(record)
+        new_inst = Institute(
+            id=code,
+            name=data.get('name'),
+            address=data.get('address'),
+            email=data.get('email'),
+            admin_id=data.get('admin_id'),
+            password=data.get('password'),
+            created_at=datetime.now().isoformat()
+        )
+        self.db.session.add(new_inst)
+        self.db.session.commit()
         return code
 
     def verify_institute(self, institute_id):
-        if not self.db: return {'valid': False, 'error': 'DB Connection Failed'}
-        docs = self._get_app_collection().where('id', '==', institute_id).stream()
-        for doc in docs:
-            d = doc.to_dict()
-            return {'valid': True, 'name': d.get('name')}
+        inst = Institute.query.get(institute_id)
+        if inst:
+            return {'valid': True, 'name': inst.name}
         return {'valid': False}
 
+    def register_admin(self, institute_id, admin_id, password):
+        inst = Institute.query.get(institute_id)
+        if not inst: return False
+        inst.admin_id = admin_id
+        inst.password = password
+        self.db.session.commit()
+        return True
+
     def verify_admin(self, admin_id, password):
-        if not self.db: 
-            # Temporary fallback to allow UI load if DB missing
-            if admin_id == 'admin': return {'valid': True, 'institute_name': 'No DB Mode', 'institute_id': 'default'}
-            return {'valid': False}
-            
-        docs = self._get_app_collection().where('admin_id', '==', admin_id).where('password', '==', password).stream()
-        for doc in docs:
-            d = doc.to_dict()
-            return {'valid': True, 'institute_name': d.get('name'), 'institute_id': d.get('id')}
+        inst = Institute.query.filter_by(admin_id=admin_id, password=password).first()
+        if inst:
+            return {'valid': True, 'institute_name': inst.name, 'institute_id': inst.id}
         return {'valid': False}
 
     def add_feedback(self, data):
-        if not self.db: return {'id': 'local-mock', 'status': 'no-db'}
-        inst_id = data.get('institute_id')
-        if not inst_id: inst_id = 'Default'
-            
-        col_ref = self._get_data_collection(inst_id, 'feedback')
+        inst_id = data.get('institute_id', 'Default')
+        # Ensure institute exists if strict, but let's be loose or ensure Default exists?
+        # For SQL, foreign key fails if not exists.
+        # We assume Institute is registered properly.
         
-        record = {
-            'id': str(uuid.uuid4()),
-            'role': data.get('role', 'Anonymous'),
-            'user_id': data.get('user_id', 'N/A'),
-            'user_name': data.get('user_name', 'Anonymous'),
-            'is_verified': data.get('is_verified', False),
-            'institute_id': inst_id,
-            'category': data.get('category'),
-            'text': data.get('text'),
-            'timestamp': data.get('timestamp') or datetime.now().isoformat(),
-            'processed': False,
-            'status': 'pending'  # Explicit status field
-        }
-        col_ref.add(record)
-        return record
+        new_id = str(uuid.uuid4())
+        fb = Feedback(
+            id=new_id,
+            institute_id=inst_id,
+            text=data.get('text'),
+            category=data.get('category'),
+            role=data.get('role', 'Anonymous'),
+            user_id=data.get('user_id', 'N/A'),
+            user_name=data.get('user_name', 'Anonymous'),
+            is_verified=data.get('is_verified', False),
+            timestamp=data.get('timestamp') or datetime.now().isoformat(),
+            processed=False,
+            status='pending',
+            session=data.get('session', 'Default Session')
+        )
+        self.db.session.add(fb)
+        self.db.session.commit()
+        return {'id': new_id, 'institute_id': inst_id, 'status': 'pending'}
 
     def get_unprocessed_feedback(self, institute_id=None):
-        if not self.db: return []
-        col_ref = self._get_data_collection(institute_id, 'feedback')
-        # Simple query for processed=False
-        docs = col_ref.where('processed', '==', False).stream()
+        query = Feedback.query.filter_by(processed=False)
+        if institute_id:
+            query = query.filter_by(institute_id=institute_id)
+        results = query.all()
         
-        feedback = []
-        for doc in docs:
-            d = doc.to_dict()
-            d['doc_id'] = doc.id # Firestore Document ID needed for updates
-            feedback.append(d)
-        return feedback
+        # Convert to dicts
+        return [{
+            'id': r.id, 'text': r.text, 'category': r.category, 
+            'role': r.role, 'timestamp': r.timestamp, 'institute_id': r.institute_id
+        } for r in results]
 
     def mark_processed(self, feedback_ids):
-        pass 
-
-    def save_clusters(self, clusters, institute_id=None):
-        if not self.db: return
-        col_ref = self._get_data_collection(institute_id, 'results')
-        record = {
-            'id': str(uuid.uuid4()),
-            'timestamp': datetime.now().isoformat(),
-            'clusters': clusters
-        }
-        col_ref.add(record)
-
-    def get_latest_results(self, institute_id=None):
-        if not self.db: return {'clusters': []}
-        col_ref = self._get_data_collection(institute_id, 'results')
-        # Order by timestamp desc, limit 1
-        query = col_ref.order_by('timestamp', direction=firestore.Query.DESCENDING).limit(1)
-        docs = list(query.stream())
-        if not docs:
-            return {'clusters': []}
-        return docs[0].to_dict()
+        if not feedback_ids: return
+        Feedback.query.filter(Feedback.id.in_(feedback_ids)).update(
+            {Feedback.processed: True, Feedback.status: 'processed'},
+            synchronize_session=False
+        )
+        self.db.session.commit()
 
     def get_feedback_stats(self, institute_id=None):
-        if not self.db: return {'total': 0, 'roles': {}, 'categories': {}}
-        col_ref = self._get_data_collection(institute_id, 'feedback')
-        docs = col_ref.stream() # Provide a limit in prod!
+        query = Feedback.query
+        if institute_id:
+            query = query.filter_by(institute_id=institute_id)
         
-        count = 0
+        feedbacks = query.all()
+        count = len(feedbacks)
         roles = {}
         categories = {}
         
-        for doc in docs:
-            d = doc.to_dict()
-            count += 1
-            r = d.get('role', 'Unknown')
+        for f in feedbacks:
+            r = f.role or 'Unknown'
+            c = f.category or 'Other'
             roles[r] = roles.get(r, 0) + 1
-            c = d.get('category', 'Other')
             categories[c] = categories.get(c, 0) + 1
             
-        return {
-            'total': count,
-            'roles': roles,
-            'categories': categories
-        }
+        return {'total': count, 'roles': roles, 'categories': categories}
 
-# Factory
-def get_storage():
-    # Priority: Firestore if lib available
-    if FIRESTORE_AVAILABLE:
-        try:
-            return FirestoreStorage()
-        except Exception as e:
-            print(f"Firestore Init Failed: {e}. Falling back to Local.")
-    
-    print("Using Local Storage")
-    return LocalStorage()
+    def save_clusters(self, institute_id, clusters):
+        new_id = str(uuid.uuid4())
+        res = Result(
+            id=new_id,
+            institute_id=institute_id,
+            clusters=json.dumps(clusters),
+            timestamp=datetime.now().isoformat()
+        )
+        self.db.session.add(res)
+        self.db.session.commit()
+
+    def get_latest_results(self, institute_id=None):
+        query = Result.query
+        if institute_id:
+            query = query.filter_by(institute_id=institute_id)
+        
+        res = query.order_by(Result.timestamp.desc()).first()
+        if res:
+            return {'clusters': json.loads(res.clusters)}
+        return {'clusters': []}
+
+# Factory removed - app.py should instantiate
