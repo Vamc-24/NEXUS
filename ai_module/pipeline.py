@@ -1,7 +1,7 @@
 from ai_module.processor import TextProcessor
 from ai_module.llm_client import get_llm_client
 
-def run_pipeline(storage):
+def run_pipeline(storage, institute_id=None):
     """
     1. Fetch unprocessed feedback
     2. Cluster it
@@ -12,8 +12,8 @@ def run_pipeline(storage):
     processor = TextProcessor()
     llm = get_llm_client()
 
-    print("Pipeline: Fetching feedback...")
-    unprocessed = storage.get_unprocessed_feedback()
+    print(f"Pipeline: Fetching feedback for institute: {institute_id}...")
+    unprocessed = storage.get_unprocessed_feedback(institute_id=institute_id)
     
     # In a real scenario, we might want to maintain existing clusters and add to them,
     # or re-cluster everything to spot emerging trends.
@@ -52,7 +52,7 @@ def run_pipeline(storage):
 
     # Save Results
     print("Pipeline: Saving results...")
-    storage.save_clusters(processed_clusters)
+    storage.save_clusters(processed_clusters, institute_id=institute_id)
     
     # Mark as processed
     feedback_ids = [item['id'] for item in unprocessed]

@@ -190,6 +190,7 @@
                 <h2>Welcome Back</h2>
                 <p>Enter your Institute ID to access the Core.</p>
             </div>
+            <div id="login-error-msg" class="error-msg"></div> <!-- Error Container -->
             <div class="input-group">
                 <label>Institute Access ID</label>
                 <input type="text" id="institute-access-id" placeholder="e.g. TUD_123" />
@@ -223,10 +224,20 @@
                     <label>Preferred Access Code</label>
                     <input type="text" id="reg-inst-code" placeholder="e.g. TECH_2024" />
                 </div>
+                <div class="input-group">
+                    <label>Admin ID</label>
+                    <input type="text" id="reg-admin-id" placeholder="Create Admin User ID" />
+                </div>
+                <div class="input-group">
+                    <label>Admin Password</label>
+                    <input type="password" id="reg-admin-password" placeholder="Create Admin Password" />
+                </div>
             </div>
             <button id="submit-registration-btn" class="btn-primary-full">Initialize System</button>
         </div>
     </div>
+
+
 
     <!-- Role Selection Screen (Hidden by default, shown after Login) -->
     <div id="role-selection" class="hidden"
@@ -246,8 +257,10 @@
                 <span id="display-institute-name" class="sub-logo"
                     style="margin-left: 8px; font-weight: 500; opacity: 1; font-size: 1.1rem; color: white;"></span>
             </div>
-            <button id="exit-institute-btn" class="nav-btn-secondary"
-                style="border-color: rgba(255,255,255,0.1); color: var(--text-muted);">Logout</button>
+            <div style="display: flex; gap: 15px; align-items: center;">
+                <button id="exit-institute-btn" class="nav-btn-secondary"
+                    style="border-color: rgba(255,255,255,0.1); color: var(--text-muted);">Logout</button>
+            </div>
         </nav>
 
         <div class="role-container" style="max-width: 1200px; margin: 0 auto; padding: 40px 20px;">

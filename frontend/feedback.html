@@ -124,35 +124,48 @@
         .identity-fields.visible {
             max-height: 100px;
             opacity: 1;
-            margin-bottom: 24px;
+            margin-bottom: 40px;
+            /* Increased from 24px */
         }
 
         .input-box {
-            background: #27272a;
-            border: 1px solid #3f3f46;
+            background: #1f1f22;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
-            padding: 12px;
-            border-radius: 8px;
+            padding: 12px 16px;
+            border-radius: 12px;
             width: 100%;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .input-box:focus {
+            border-color: var(--primary-orange);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
+            background: #27272a;
         }
 
         .category-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
-            gap: 12px;
-            margin-bottom: 24px;
+            gap: 16px;
+            /* Increased gap */
+            margin-bottom: 32px;
+            /* Increased margin */
+            margin-top: 20px;
+            /* Added top margin explicitly */
         }
 
         .category-btn {
             background: rgba(255, 255, 255, 0.05);
             border: 1px solid var(--border-color);
             color: var(--text-muted);
-            padding: 12px;
-            border-radius: 8px;
+            padding: 14px;
+            border-radius: 10px;
             cursor: pointer;
             transition: all 0.2s;
             text-align: center;
-            font-size: 0.9rem;
+            font-size: 0.95rem;
         }
 
         .category-btn:hover {
@@ -161,29 +174,32 @@
         }
 
         .category-btn.active {
-            background: rgba(239, 68, 68, 0.1);
-            border-color: var(--primary-red);
-            color: var(--primary-red);
+            background: rgba(249, 115, 22, 0.15);
+            /* Orange theme */
+            border-color: var(--primary-orange);
+            color: var(--primary-orange);
             font-weight: 600;
         }
 
         textarea {
             width: 100%;
             height: 150px;
-            background: #27272a;
-            border: 1px solid #3f3f46;
+            background: #1f1f22;
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: white;
             padding: 16px;
             border-radius: 12px;
             resize: none;
             font-size: 1rem;
             margin-bottom: 24px;
-            transition: border-color 0.2s;
+            transition: all 0.3s ease;
+            outline: none;
         }
 
         textarea:focus {
-            outline: none;
             border-color: var(--primary-orange);
+            box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.2);
+            background: #27272a;
         }
 
         .submit-btn {

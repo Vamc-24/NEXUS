@@ -90,6 +90,30 @@ function switchView(viewName, pushState = true) {
     }
 }
 
+// Firebase Configuration (Frontend)
+// Note: Core data storage is handled by the Python Backend (storage.py)
+// This frontend connection is initialized as requested.
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
+import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
+
+const firebaseConfig = {
+    apiKey: "AIzaSyDZG2bka3fV7IYzr-DRMf13ZLVxyXM4Dz8",
+    authDomain: "nexus-ai-project-ca36d.firebaseapp.com",
+    projectId: "nexus-ai-project-ca36d",
+    storageBucket: "nexus-ai-project-ca36d.firebasestorage.app",
+    messagingSenderId: "1064011591904",
+    appId: "1:1064011591904:web:28f48e7f5e95e1f9a96085",
+    measurementId: "G-NN9YKZEB0E"
+};
+
+try {
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+    console.log("Firebase Frontend Initialized");
+} catch (e) {
+    console.warn("Firebase Init Error (Check module support in dashboard.html):", e);
+}
+
 // Global Filter State
 let currentFilter = 'All';
 let latestResults = null;
@@ -138,17 +162,43 @@ window.addEventListener('popstate', () => {
 
 async function fetchLatestResults() {
     try {
-        const response = await fetch('/api/results');
+        const instituteId = sessionStorage.getItem('institute_id');
+        const query = instituteId ? `?institute_id=${instituteId}` : '';
+        const response = await fetch(`/api/results${query}`);
         const data = await response.json();
         if (data && data.clusters && data.clusters.length > 0) {
             latestResults = data;
             renderDashboard(data);
         } else {
-            // If no results, maybe auto-trigger for demo?
-            // triggerAnalysis(); 
+            // Handle empty state explicitly so UI initializes
+            latestResults = { clusters: [] };
+            renderDashboard({ clusters: [] });
+        }
+
+
+    } catch (e) {
+        console.log("Awaiting Analysis...", e);
+    } finally {
+        // Always try to fetch stats for dynamic real-time data
+        fetchStats();
+    }
+}
+
+async function fetchStats() {
+    try {
+        const instituteId = sessionStorage.getItem('institute_id');
+        const query = instituteId ? `?institute_id=${instituteId}` : '';
+        const response = await fetch(`/api/stats${query}`);
+        const stats = await response.json();
+        renderCharts(stats);
+
+        // Update Total Volume KPI from direct stats if available
+        if (stats.total !== undefined) {
+            const kpiTotal = document.getElementById('kpi-total');
+            if (kpiTotal) kpiTotal.innerText = stats.total.toLocaleString();
         }
     } catch (e) {
-        console.log("Awaiting Analysis...");
+        console.error("Failed to fetch stats", e);
     }
 }
 
@@ -164,19 +214,25 @@ function renderDashboard(data) {
 let deptChartInstance = null;
 let problemChartInstance = null;
 
-function renderCharts(data) {
+function renderCharts(stats) {
     const ctxDept = document.getElementById('deptChart');
     const ctxProb = document.getElementById('problemChart');
 
     if (ctxDept) {
         if (deptChartInstance) deptChartInstance.destroy();
+
+        // Parse Role Data
+        const roles = stats.roles || {};
+        const roleLabels = Object.keys(roles);
+        const roleData = Object.values(roles);
+
         deptChartInstance = new Chart(ctxDept, {
             type: 'bar',
             data: {
-                labels: ['CSE', 'ECE', 'MECH', 'Library', 'Hostel'], // Renamed Admin -> Library
+                labels: roleLabels.length ? roleLabels : ['No Data'],
                 datasets: [{
                     label: 'Feedback Volume',
-                    data: [65, 45, 30, 25, 55], // Mock data aligned with request
+                    data: roleData.length ? roleData : [0],
                     backgroundColor: [
                         '#3b82f6', '#8b5cf6', '#a259ff', '#f59e0b', '#22c55e'
                     ],
@@ -188,7 +244,7 @@ function renderCharts(data) {
                 maintainAspectRatio: false,
                 plugins: { legend: { display: false } },
                 scales: {
-                    y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888' } },
+                    y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.1)' }, ticks: { color: '#888', precision: 0 } },
                     x: { grid: { display: false }, ticks: { color: '#888' } }
                 }
             }
@@ -197,17 +253,24 @@ function renderCharts(data) {
 
     if (ctxProb) {
         if (problemChartInstance) problemChartInstance.destroy();
+
+        // Parse Category Data
+        const cats = stats.categories || {};
+        const catLabels = Object.keys(cats);
+        const catData = Object.values(cats);
+
         problemChartInstance = new Chart(ctxProb, {
             type: 'doughnut',
             data: {
-                labels: ['Infrastructure', 'Food', 'Academics', 'Safety'],
+                labels: catLabels.length ? catLabels : ['Empty'],
                 datasets: [{
-                    data: [45, 23, 20, 12],
+                    data: catData.length ? catData : [1], // Placeholder 1 if empty to show ring
                     backgroundColor: [
                         'rgba(249, 115, 22, 0.8)', // Orange
                         'rgba(168, 85, 247, 0.8)', // Purple
                         'rgba(34, 197, 94, 0.8)',  // Green
-                        'rgba(239, 68, 68, 0.8)'   // Red
+                        'rgba(239, 68, 68, 0.8)',  // Red
+                        '#3b82f6', '#eab308'
                     ],
                     borderColor: '#18181b',
                     borderWidth: 2
@@ -224,17 +287,10 @@ function renderCharts(data) {
     }
 }
 
-function renderDashboard(data) {
-    updateKPIS(data);
-    renderResults(data);
-    renderCriticalAlerts(data);
-    renderCharts(data); // Render Charts on load
-}
 
 function updateKPIS(data) {
     // 1. Total Feedbacks
-    const totalVolume = data.clusters.reduce((acc, c) => acc + (c.count || 0), 0) || 1240;
-    document.getElementById('kpi-volume').innerText = totalVolume.toLocaleString();
+    const totalVolume = data.clusters.reduce((acc, c) => acc + (c.count || 0), 0) || 0;
     if (document.getElementById('kpi-total')) document.getElementById('kpi-total').innerText = totalVolume.toLocaleString();
 
     // 2. Unique Issues
@@ -243,16 +299,9 @@ function updateKPIS(data) {
     // 3. Solved (Mock)
     if (document.getElementById('kpi-solved')) document.getElementById('kpi-solved').innerText = Math.floor(totalVolume * 0.4);
 
-    // 4. Net Sentiment (Existing)
-    let positive = 0, negative = 0;
-    data.clusters.forEach(c => {
-        let s = c.solutions[0]?.sentiment || "Neutral";
-        if (s === "Positive") positive++;
-        if (s === "Negative") negative++;
-    });
-    const nps = Math.floor(((positive - negative) / data.clusters.length) * 100) || 12;
-    if (document.getElementById('kpi-score')) document.getElementById('kpi-score').innerText = nps > 0 ? `+${nps}` : nps;
+    // 4. Critical Alerts (calculated in renderCriticalAlerts)
 }
+
 
 function renderResults(data) {
     const container = document.getElementById('dashboard-content');

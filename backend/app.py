@@ -34,6 +34,8 @@ def submit_feedback():
         'is_verified': data.get('is_verified', False),
         'user_id': data.get('user_id', 'Anonymous'),
         'user_name': data.get('user_name', 'Anonymous'),
+        'user_name': data.get('user_name', 'Anonymous'),
+        'institute_id': data.get('institute_id', 'Default'),
         'timestamp': datetime.now().isoformat()
     }
     
@@ -44,20 +46,40 @@ def submit_feedback():
 @app.route('/api/process', methods=['POST'])
 def trigger_processing():
     """
-    Manually trigger the AI pipeline.
-    In production, this would be a Cloud Function triggered by Firestore events.
+    Manually trigger the AI pipeline for a specific institute.
     """
+    data = request.json or {}
+    institute_id = data.get('institute_id')
+    
     try:
-        result = run_pipeline(storage)
+        # We need to update run_pipeline signature too, but assuming it takes storage and ID, or just storage 
+        # and we pass ID to storage methods?
+        # Actually pipeline.py usually calls `storage.get_unprocessed_feedback()`.
+        # I need to verify pipeline.py. Assuming I can pass kwargs or update it.
+        # For now, let's pass institute_id to run_pipeline if it accepts it, OR 
+        # if run_pipeline is blackbox, I might need to update it.
+        # Let's assume run_pipeline needs update or we pass it as arg.
+        
+        # Let's check pipeline import. `from ai_module.pipeline import run_pipeline`
+        # I'll pass institute_id and check if I need to update pipeline.py next.
+        result = run_pipeline(storage, institute_id=institute_id)
         return jsonify({'status': 'success', 'result': result}), 200
     except Exception as e:
         print(f"Error in pipeline: {e}")
         return jsonify({'error': str(e)}), 500
 
 @app.route('/api/results', methods=['GET'])
+@app.route('/api/results', methods=['GET'])
 def get_results():
-    results = storage.get_latest_results()
+    institute_id = request.args.get('institute_id')
+    results = storage.get_latest_results(institute_id=institute_id)
     return jsonify(results)
+
+@app.route('/api/stats', methods=['GET'])
+def get_stats():
+    institute_id = request.args.get('institute_id')
+    stats = storage.get_feedback_stats(institute_id=institute_id)
+    return jsonify(stats)
 
 @app.route('/api/export/pdf', methods=['POST'])
 def export_pdf():
@@ -206,10 +228,43 @@ def verify_institute():
     if not institute_id:
         return jsonify({'valid': False}), 400
         
-    inst_name = storage.verify_institute(institute_id)
-    if inst_name:
-        return jsonify({'valid': True, 'name': inst_name}), 200
+    result = storage.verify_institute(institute_id)
+    if result.get('valid'):
+        return jsonify({'valid': True, 'name': result['name']}), 200
     return jsonify({'valid': False}), 200
+
+@app.route('/api/institute/register-admin', methods=['POST'])
+def register_institute_admin():
+    data = request.json
+    institute_id = data.get('institute_id')
+    admin_id = data.get('admin_id')
+    password = data.get('password')
+
+    if not institute_id or not admin_id or not password:
+        return jsonify({'error': 'Missing fields'}), 400
+
+    success = storage.register_admin(institute_id, admin_id, password)
+    
+    if success:
+        return jsonify({'status': 'success'})
+    else:
+        return jsonify({'error': 'Institute not found'}), 404
+
+@app.route('/api/admin/login', methods=['POST'])
+def admin_login():
+    data = request.json
+    admin_id = data.get('admin_id')
+    password = data.get('password')
+
+    if not admin_id or not password:
+        return jsonify({'error': 'Missing credentials'}), 400
+
+    # Dynamic Verification via Storage (Firestore/Local)
+    result = storage.verify_admin(admin_id, password)
+    if result.get('valid'):
+        return jsonify(result)
+    else:
+        return jsonify({'error': 'Invalid Credentials'}), 401
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))

@@ -50,9 +50,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // --- Core Logic ---
 
     // 1. Institute Login
+    // 1. Institute Login
     verifyBtn.addEventListener('click', async () => {
-        const accessId = document.getElementById('institute-access-id').value.trim();
-        if (!accessId) return alert('Please enter an Access ID');
+        const accessIdInput = document.getElementById('institute-access-id');
+        const accessId = accessIdInput.value.trim();
+
+        if (!accessId) {
+            showError('login-error-msg', 'Please enter an Access ID', [accessIdInput]);
+            return;
+        }
 
         try {
             const response = await fetch('/api/institute/verify', {
@@ -68,13 +74,30 @@ document.addEventListener('DOMContentLoaded', () => {
                 loginModal.classList.add('hidden');
                 showRoleSelection(data.name);
             } else {
-                alert('Invalid Access ID');
+                showError('login-error-msg', 'Invalid Access ID', [accessIdInput]);
             }
         } catch (error) {
             console.error('Error:', error);
-            alert('Server error connecting to backend.');
+            showError('login-error-msg', 'Server Connection Error', [accessIdInput]);
         }
     });
+
+    // Helper Function for Errors
+    function showError(elementId, message, inputs = []) {
+        const errorDiv = document.getElementById(elementId);
+        if (!errorDiv) return alert(message); // Fallback
+
+        errorDiv.textContent = message;
+        errorDiv.classList.add('visible');
+
+        inputs.forEach(input => input.classList.add('input-error'));
+
+        // Vanish after 3 seconds
+        setTimeout(() => {
+            errorDiv.classList.remove('visible');
+            inputs.forEach(input => input.classList.remove('input-error'));
+        }, 3000);
+    }
 
     // 2. Institute Registration
     registerSubmitBtn.addEventListener('click', async () => {
@@ -90,7 +113,9 @@ document.addEventListener('DOMContentLoaded', () => {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    name, email, address, code: code
+                    name, email, address, code: code,
+                    admin_id: document.getElementById('reg-admin-id').value,
+                    password: document.getElementById('reg-admin-password').value
                 })
             });
 
@@ -173,4 +198,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.getElementById('display-institute-name').innerText = name || '';
         document.querySelector('.navbar').style.display = 'none'; // Hide Main Nav
     }
+
+
+
 });
