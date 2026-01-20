@@ -341,21 +341,15 @@
         <!-- Top Bar -->
         <div class="top-bar">
             <div class="header-title">
-                <!-- Applied Orange Gradient Theme -->
                 <h1 class="gradient-text" style="font-size: 1.8rem; font-weight: 800;">Real-time Institutional
                     Intelligence</h1>
             </div>
-            <div style="display: flex; align-items: center; gap: 20px;">
-                <!-- Analyze Button -->
-                <button class="btn-sm" onclick="triggerAnalysis()"
-                    style="background: var(--primary-red); color: white; border: none; font-weight: 700; padding: 10px 20px;">
-                    <i class="fa-solid fa-microchip"></i> Analyze Feedback
-                </button>
 
+            <div style="display: flex; align-items: center; gap: 20px;">
                 <div style="text-align: right;">
                     <h4 style="margin: 0; font-size: 0.9rem;" id="header-role-label">ADMIN</h4>
-                    <span style="font-size: 0.75rem; color: var(--text-muted);" id="dashboard-institute-name">Institute
-                        Name</span>
+                    <span style="font-size: 0.75rem; color: var(--text-muted);"
+                        id="dashboard-institute-name">Aits</span>
                 </div>
             </div>
         </div>
@@ -363,64 +357,34 @@
         <div class="dashboard-container" id="dashboard-view-container">
 
             <!-- 1. Real-Time Stats Row -->
+            <!-- 1. Real-Time Stats Row -->
             <div class="stats-overview fade-in">
                 <div class="stat-widget">
-                    <h4><i class="fa-solid fa-users"></i> Total Feedbacks</h4>
+                    <h4><i class="fa-solid fa-users"></i> Total Problems</h4>
                     <div class="stat-number" id="kpi-total">--</div>
-                    <span class="stat-trend trend-up">All Sources</span>
+                    <span class="stat-trend trend-up">Reported</span>
                 </div>
                 <div class="stat-widget">
                     <h4><i class="fa-solid fa-fingerprint"></i> Unique Issues</h4>
                     <div class="stat-number" id="kpi-unique">--</div>
                     <span class="stat-trend">AI Clustered</span>
                 </div>
-                <!-- Notifications Target -->
-                <div class="stat-widget" id="notifications-target" style="border-color: rgba(239, 68, 68, 0.4);">
-                    <h4 style="color: var(--primary-red);"><i class="fa-solid fa-triangle-exclamation"></i> Critical
-                        Blocks</h4>
-                    <div class="stat-number" id="kpi-alerts" style="color: var(--primary-red);">0</div>
-                    <span class="stat-trend trend-down">High Priority</span>
-                </div>
+                <!-- Solved Widget -->
                 <div class="stat-widget">
                     <h4><i class="fa-solid fa-check-double"></i> Solved</h4>
-                    <div class="stat-number" id="kpi-solved" style="color: #22c55e;">24</div>
-                    <span class="stat-trend">This Month</span>
+                    <div class="stat-number" id="kpi-solved" style="color: #22c55e;">0</div>
+                    <span class="stat-trend">Action Taken</span>
                 </div>
             </div>
 
-            <!-- 2. Breakdown Row (Real-time Graphs) -->
-            <div class="grid-2" style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 40px;">
-                <div class="chart-section" style="height: 320px; position: relative;">
-                    <div class="section-header">
-                        <h4>Engagement by Role</h4>
-                    </div>
-                    <div style="height: 240px; width: 100%;">
-                        <canvas id="deptChart"></canvas>
-                    </div>
-                </div>
-
-                <div class="chart-section" style="height: 320px; position: relative;">
-                    <div class="section-header">
-                        <h4>Problem Distribution</h4>
-                    </div>
-                    <div style="height: 240px; width: 100%; display: flex; justify-content: center;">
-                        <canvas id="problemChart"></canvas>
-                    </div>
-                </div>
-            </div>
-
-            <!-- 3. AI Intelligence Feed -->
-            <div class="feed-section">
-                <div class="section-header" style="justify-content: flex-start; gap: 20px; align-items: center;">
-                    <h3><i class="fa-solid fa-brain" style="color: var(--primary-orange);"></i> AI-Regenerated
-                        Intelligence</h3>
-                    <!-- Dynamic Filters -->
-                    <div class="filter-bar" style="margin-bottom: 0;">
-                        <button class="btn-sm active" onclick="filterResults('All')">All</button>
-                        <button class="btn-sm" onclick="filterResults('Positive')">Positive</button>
-                        <button class="btn-sm" onclick="filterResults('Neutral')">Neutral</button>
-                        <button class="btn-sm" onclick="filterResults('Negative')">Critical</button>
-                    </div>
+            <!-- 2. AI Intelligence Feed (Charts Removed) -->
+            <div class="feed-section" style="margin-top: 40px;">
+                <div class="section-header"
+                    style="justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h3><i class="fa-solid fa-brain" style="color: var(--primary-orange);"></i> Problem Statements</h3>
+                    <!-- Only 'Problem Statements' or 'Regenerated' Header -->
+                    <span class="tag" style="background: rgba(255,165,0,0.1); color: var(--primary-orange);">Regenerated
+                        Intelligence</span>
                 </div>
 
                 <div id="loading-state" class="hidden" style="text-align: center; padding: 40px;">

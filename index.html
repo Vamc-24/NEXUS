@@ -122,17 +122,17 @@
             <div class="stats-container">
                 <div class="stat-card">
                     <i class="fa-solid fa-server" style="color: #ef4444;"></i>
-                    <h3>1.5M+</h3>
+                    <h3 id="stat-data">1.5M+</h3>
                     <p>Data Points Processed</p>
                 </div>
                 <div class="stat-card">
                     <i class="fa-solid fa-building-columns" style="color: #3b82f6;"></i>
-                    <h3>500+</h3>
+                    <h3 id="stat-institutes">500+</h3>
                     <p>Institutes Partnered</p>
                 </div>
                 <div class="stat-card">
                     <i class="fa-solid fa-graduation-cap" style="color: #10b981;"></i>
-                    <h3>50k+</h3>
+                    <h3 id="stat-students">50k+</h3>
                     <p>Active Students</p>
                 </div>
             </div>
@@ -378,6 +378,64 @@
     </div>
 
     <!-- Scripts -->
+
+    <!-- Developer Profile Widget -->
+    <a href="https://www.linkedin.com/in/bommusaivamsi/" target="_blank" class="developer-widget"
+        title="Connect with Developer">
+        <i class="fa-brands fa-linkedin"></i>
+        <span class="developer-tooltip">Bommu Sai Vamsi</span>
+    </a>
+
+    <style>
+        .developer-widget {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 60px;
+            height: 60px;
+            background: #0077b5;
+            /* LinkedIn Blue */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 30px;
+            box-shadow: 0 10px 25px rgba(0, 119, 181, 0.4);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 9999;
+            text-decoration: none;
+        }
+
+        .developer-widget:hover {
+            transform: scale(1.1) translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 119, 181, 0.6);
+        }
+
+        .developer-widget:hover .developer-tooltip {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .developer-tooltip {
+            position: absolute;
+            right: 70px;
+            background: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            white-space: nowrap;
+            opacity: 0;
+            transform: translateX(10px);
+            transition: all 0.3s ease;
+            pointer-events: none;
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+    </style>
+
     <script src="script.js"></script>
 </body>
 

@@ -140,6 +140,19 @@ class SQLAlchemyStorage(StorageBase):
             'role': r.role, 'timestamp': r.timestamp, 'institute_id': r.institute_id
         } for r in results]
 
+    def get_all_feedback(self, institute_id=None):
+        query = Feedback.query
+        if institute_id:
+            query = query.filter_by(institute_id=institute_id)
+        
+        # Sort by timestamp desc (if possible, but string timestamp needs care, assuming ISO format sorts okay or just reverse list)
+        feedbacks = query.all()
+        
+        return [{
+            'id': r.id, 'text': r.text, 'category': r.category, 
+            'role': r.role, 'timestamp': r.timestamp, 'institute_id': r.institute_id
+        } for r in feedbacks[::-1]] # Reverse to show newest first
+
     def mark_processed(self, feedback_ids):
         if not feedback_ids: return
         Feedback.query.filter(Feedback.id.in_(feedback_ids)).update(
@@ -164,7 +177,15 @@ class SQLAlchemyStorage(StorageBase):
             roles[r] = roles.get(r, 0) + 1
             categories[c] = categories.get(c, 0) + 1
             
-        return {'total': count, 'roles': roles, 'categories': categories}
+        # Get recent 5
+        recent = [{
+            'text': f.text[:50] + '...',
+            'role': f.role,
+            'category': f.category,
+            'timestamp': f.timestamp
+        } for f in feedbacks[-5:][::-1]]
+
+        return {'total': count, 'roles': roles, 'categories': categories, 'recent': recent}
 
     def save_clusters(self, institute_id, clusters):
         new_id = str(uuid.uuid4())
@@ -186,5 +207,19 @@ class SQLAlchemyStorage(StorageBase):
         if res:
             return {'clusters': json.loads(res.clusters)}
         return {'clusters': []}
+
+
+    def get_global_stats(self):
+        # Real-time counts
+        data_points = Feedback.query.count()
+        institutes_count = Institute.query.count()
+        # Estimate students based on feedback or just return total feedback from students
+        active_students = Feedback.query.filter_by(role='Student').count()
+
+        return {
+            'data_points': data_points, 
+            'institutes': institutes_count, 
+            'students': active_students
+        }
 
 # Factory removed - app.py should instantiate

@@ -389,6 +389,13 @@
                 institute_id: instituteId // Send to Backend
             };
 
+            if (instituteId === 'Default' || !instituteId) {
+                alert('Error: No Institute ID found. Please use a valid feedback link provided by your admin.');
+                btn.innerHTML = originalText;
+                btn.disabled = false;
+                return;
+            }
+
             try {
                 const response = await fetch('/api/feedback', {
                     method: 'POST',
@@ -396,14 +403,16 @@
                     body: JSON.stringify(payload)
                 });
 
+                const resData = await response.json();
+
                 if (response.ok) {
                     document.getElementById('success-view').classList.remove('hidden');
                 } else {
-                    alert('Transmission Failed. System offline?');
+                    alert('Error: ' + (resData.error || 'Transmission Failed. Check Institute ID.'));
                 }
             } catch (error) {
                 console.error(error);
-                alert('Connection Error.');
+                alert('Connection Error. Please check your internet.');
             } finally {
                 btn.innerHTML = originalText;
                 btn.disabled = false;

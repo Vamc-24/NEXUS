@@ -23,6 +23,41 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- State Check ---
     checkInstituteAccess();
+    updateGlobalStats();
+
+    // --- Dynamic Stats ---
+    async function updateGlobalStats() {
+        try {
+            const response = await fetch('/api/stats/global');
+            const data = await response.json();
+
+            // Format numbers with K/M if needed, or just raw for now
+            // Or simple animation
+            animateValue("stat-data", 0, data.data_points, 2000);
+            animateValue("stat-institutes", 0, data.institutes, 2000);
+            animateValue("stat-students", 0, data.students, 2000);
+
+        } catch (e) {
+            console.error("Stats fetch failed", e);
+        }
+    }
+
+    function animateValue(id, start, end, duration) {
+        const obj = document.getElementById(id);
+        if (!obj) return;
+        let startTimestamp = null;
+        const step = (timestamp) => {
+            if (!startTimestamp) startTimestamp = timestamp;
+            const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+            obj.innerHTML = Math.floor(progress * (end - start) + start);
+            if (progress < 1) {
+                window.requestAnimationFrame(step);
+            } else {
+                obj.innerHTML = end + "+"; // Add plus sign
+            }
+        };
+        window.requestAnimationFrame(step);
+    }
 
     // --- Event Listeners ---
 

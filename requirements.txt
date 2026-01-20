@@ -11,3 +11,4 @@ python-docx
 gunicorn
 flask-sqlalchemy
 psycopg2-binary
+google-generativeai

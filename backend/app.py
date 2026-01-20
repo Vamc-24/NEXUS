@@ -4,15 +4,19 @@ import os
 import sys
 from datetime import datetime 
 import uuid
+from dotenv import load_dotenv
 
 # Add project root to path so we can import ai_module
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+
+# Load environment variables
+load_dotenv()
 
 from flask_sqlalchemy import SQLAlchemy
 from backend.storage import db, SQLAlchemyStorage
 from ai_module.pipeline import run_pipeline
 
-app = Flask(__name__, static_folder='../frontend', static_url_path='/')
+app = Flask(__name__, static_folder='..', static_url_path='/')
 CORS(app)
 
 # Database Config
@@ -94,8 +98,23 @@ def get_results():
 @app.route('/api/stats', methods=['GET'])
 def get_stats():
     institute_id = request.args.get('institute_id')
-    stats = storage.get_feedback_stats(institute_id=institute_id)
-    return jsonify(stats)
+    if not institute_id or institute_id == 'Default':
+        return jsonify(storage.get_feedback_stats())
+    return jsonify(storage.get_feedback_stats(institute_id))
+
+@app.route('/api/stats/global', methods=['GET'])
+def get_global_stats():
+    """Returns global platform statistics for the landing page."""
+    return jsonify(storage.get_global_stats())
+
+@app.route('/api/feedback/list', methods=['GET'])
+def get_all_feedback_list():
+    institute_id = request.args.get('institute_id')
+    if not institute_id or institute_id == 'Default':
+        # Optional: Decide if we want to show ALL feedback if no ID, or restricted. 
+        # For now, consistent with stats, return all if no ID provided (or handle as 'Default')
+        return jsonify(storage.get_all_feedback())
+    return jsonify(storage.get_all_feedback(institute_id))
 
 @app.route('/api/export/pdf', methods=['POST'])
 def export_pdf():

@@ -288,18 +288,23 @@ function renderCharts(stats) {
 }
 
 
+// 3. KPI Updates
 function updateKPIS(data) {
-    // 1. Total Feedbacks
-    const totalVolume = data.clusters.reduce((acc, c) => acc + (c.count || 0), 0) || 0;
-    if (document.getElementById('kpi-total')) document.getElementById('kpi-total').innerText = totalVolume.toLocaleString();
+    // Total Volume
+    if (data.total !== undefined) {
+        document.getElementById('kpi-total').innerText = data.total;
+    }
 
-    // 2. Unique Issues
-    if (document.getElementById('kpi-unique')) document.getElementById('kpi-unique').innerText = data.clusters.length;
+    // Unique Issues (Clusters)
+    if (data.clusters) {
+        document.getElementById('kpi-unique').innerText = data.clusters.length;
+    }
 
-    // 3. Solved (Mock)
-    if (document.getElementById('kpi-solved')) document.getElementById('kpi-solved').innerText = Math.floor(totalVolume * 0.4);
-
-    // 4. Critical Alerts (calculated in renderCriticalAlerts)
+    // Solved Count (Dynamic from Session + Click)
+    const solved = sessionStorage.getItem('solvedCount') || 0;
+    if (document.getElementById('kpi-solved')) {
+        document.getElementById('kpi-solved').innerText = solved;
+    }
 }
 
 
@@ -309,30 +314,24 @@ function renderResults(data) {
 
     container.innerHTML = '';
 
-    const filtered = data.clusters.filter(c => {
-        const sentiment = c.solutions[0]?.sentiment || "Neutral";
-        return currentFilter === 'All' || sentiment === currentFilter;
-    });
+    // No Filters - Show All Clusters
+    const filtered = data.clusters;
 
     if (filtered.length === 0) {
-        container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 40px;">No signals matching '${currentFilter}'</div>`;
+        container.innerHTML = `<div style="text-align: center; color: var(--text-muted); padding: 40px;">No insights generated yet. Click 'Analyze'.</div>`;
         return;
     }
 
     filtered.forEach((cluster, index) => {
         const sol = cluster.solutions[0];
-        const sentiment = sol?.sentiment || "Neutral";
-        let color = '#a1a1aa'; // Neutral
-        if (sentiment === 'Positive') color = '#22c55e';
-        if (sentiment === 'Negative') color = '#ef4444';
 
         const card = document.createElement('div');
         card.className = 'stat-widget fade-in';
         card.style.marginBottom = '24px';
-        card.style.borderLeft = `4px solid ${color}`;
+        card.style.borderLeft = `4px solid var(--primary-orange)`;
         card.style.animationDelay = `${index * 0.1}s`;
 
-        // Detailed AI Layout
+        // Updated Layout per Request
         card.innerHTML = `
             <!-- 1. Regenerated Problem Statement -->
             <div style="margin-bottom: 20px;">
@@ -342,38 +341,34 @@ function renderResults(data) {
                 <h3 style="font-size: 1.2rem; line-height: 1.5; color: white;">
                     "${cluster.problem_statement}"
                 </h3>
-                <div style="margin-top: 10px; display: flex; gap: 10px;">
-                    <span class="tag" style="background: rgba(255,255,255,0.05); color: #ccc;">${cluster.theme}</span>
-                    <span class="tag" style="background: rgba(255,255,255,0.05); color: #ccc;">${cluster.count} Reports</span>
-                </div>
             </div>
 
-            <!-- 2. AI Solution (One Line) -->
-            <div style="background: rgba(255, 255, 255, 0.03); padding: 16px; border-radius: 8px; margin-bottom: 16px; border: 1px solid rgba(255, 255, 255, 0.05);">
-                <h6 style="color: var(--primary-orange); font-size: 0.75rem; margin-bottom: 5px;">
-                    <i class="fa-solid fa-wand-magic-sparkles"></i> AI GENERATED SOLUTION
+            <!-- 2. Strategic Solution (Concise) -->
+             <div style="margin-bottom: 25px;">
+                 <h6 style="color: var(--primary-orange); font-size: 0.75rem; margin-bottom: 8px;">
+                    <i class="fa-solid fa-wand-magic-sparkles"></i> STRATEGIC SOLUTION
                 </h6>
-                <p style="font-size: 1.1rem; font-weight: 600; color: #fff;">
-                    ${sol.solution_title}
+                <p style="font-size: 1.05rem; color: #d4d4d8; line-height: 1.6;">
+                    ${sol.steps ? sol.steps.slice(0, 3).join(' • ') : sol.solution_title}
                 </p>
             </div>
 
-            <!-- 3. Step-by-Step Process -->
-            <div style="margin-bottom: 20px;">
-                <h6 style="color: var(--text-muted); font-size: 0.75rem; margin-bottom: 10px;">IMPLEMENTATION PROCESS</h6>
-                <ul style="color: #d4d4d8; font-size: 0.95rem; line-height: 1.8; padding-left: 20px;">
-                    ${sol.steps ? sol.steps.map(step => `<li>${step}</li>`).join('') : '<li>Analysis pending...</li>'}
-                </ul>
-            </div>
-
-            <!-- 4. Estimated Cost -->
-            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 15px; display: flex; justify-content: space-between; align-items: center;">
+            <!-- 3. Footer (Cost & Solved) -->
+            <div style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; display: flex; justify-content: space-between; align-items: center;">
+                
+                <!-- Left: Estimated Cost -->
                 <div>
-                     <span style="display: block; font-size: 0.8rem; color: var(--text-muted);">ESTIMATED COST</span>
-                     <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.2rem; color: #22c55e;">
+                     <span style="display: block; font-size: 0.75rem; color: var(--text-muted); margin-bottom: 4px;">ESTIMATED COST</span>
+                     <span style="font-family: 'JetBrains Mono', monospace; font-size: 1.25rem; color: #22c55e; font-weight: 700;">
                         ₹ ${sol.total_estimated_cost || 'N/A'}
                      </span>
                 </div>
+
+                <!-- Right: Solid Solved Button -->
+                <button class="btn-sm" onclick="markAsSolved(this)" 
+                        style="background: #22c55e; color: white; border: none; font-weight: 700; padding: 12px 28px; border-radius: 8px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3); transition: transform 0.2s;">
+                    Solved <i class="fa-solid fa-arrow-right" style="margin-left: 8px;"></i>
+                </button>
 
             </div>
         `;

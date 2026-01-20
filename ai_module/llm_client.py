@@ -153,10 +153,83 @@ class VertexLLMClient(LLMClient):
                 "total_estimated_cost": "Unknown"
             }]
 
+# Try importing Gemini
+try:
+    import google.generativeai as genai
+    GEMINI_AVAILABLE = True
+except ImportError:
+    GEMINI_AVAILABLE = False
+
+class GeminiLLMClient(LLMClient):
+    def __init__(self, api_key):
+        if not GEMINI_AVAILABLE:
+            raise RuntimeError("google-generativeai not installed.")
+        genai.configure(api_key=api_key)
+        # Use valid model name (gemini-1.5-flash is stable)
+        self.model = genai.GenerativeModel('gemini-1.5-flash')
+
+    def generate_problem_statement(self, texts):
+        combined_text = "\n".join([f"- {t}" for t in texts])
+        prompt = f"""
+        Analyze the following student feedback comments:
+        {combined_text}
+        
+        Write a single, concise problem statement (max 2 sentences) summarizing the core issue.
+        Problem Statement:
+        """
+        try:
+            response = self.model.generate_content(prompt)
+            return response.text.strip()
+        except Exception as e:
+            print(f"Gemini Error: {e}")
+            return "Error generating problem statement."
+
+    def suggest_solutions(self, problem_statement):
+        prompt = f"""
+        Problem: {problem_statement}
+        
+        Suggest 3 concrete, actionable solutions.
+        For each solution, provide:
+        1. 'solution_title' (string)
+        2. 'steps' (list of strings)
+        3. 'resources' (object with keys 'Investment', 'Labor', 'Support')
+        4. 'total_estimated_cost' (string in Rupees, e.g. "₹50,000")
+        5. 'sentiment' ("Positive", "Neutral", "Negative")
+        
+        Return the response AS A VALID JSON LIST of objects.
+        Do not include markdown formatting (like ```json). Just the raw JSON.
+        """
+        try:
+            response = self.model.generate_content(prompt)
+            text = response.text.strip()
+            # Cleanup potential markdown
+            if text.startswith('```json'):
+                text = text[7:]
+            if text.endswith('```'):
+                text = text[:-3]
+            return json.loads(text.strip())
+        except Exception as e:
+            print(f"Gemini Error: {e}")
+            return [{
+                "solution_title": "AI Service Unavailable",
+                "steps": ["Check API Key"],
+                "resources": {},
+                "total_estimated_cost": "N/A"
+            }]
+
 def get_llm_client():
+    # 1. Check for Gemini Key (Highest Priority)
+    gemini_key = os.environ.get('GEMINI_API_KEY')
+    if gemini_key and GEMINI_AVAILABLE:
+        print("Using Gemini AI")
+        return GeminiLLMClient(gemini_key)
+
+    # 2. Check for Vertex AI
     project_id = os.environ.get('GOOGLE_CLOUD_PROJECT')
     if project_id and VERTEX_AVAILABLE:
         print(f"Using Vertex AI with project {project_id}")
         return VertexLLMClient(project_id)
-    print("Using Mock LLM (Set GOOGLE_CLOUD_PROJECT env var to use Vertex AI)")
+        
+    # 3. Fallback
+    print("Using Mock LLM (Set GEMINI_API_KEY or GOOGLE_CLOUD_PROJECT to use AI)")
     return MockLLMClient()
