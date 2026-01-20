@@ -90,29 +90,8 @@ function switchView(viewName, pushState = true) {
     }
 }
 
-// Firebase Configuration (Frontend)
-// Note: Core data storage is handled by the Python Backend (storage.py)
-// This frontend connection is initialized as requested.
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-app.js";
-import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.7.0/firebase-analytics.js";
-
-const firebaseConfig = {
-    apiKey: "AIzaSyDZG2bka3fV7IYzr-DRMf13ZLVxyXM4Dz8",
-    authDomain: "nexus-ai-project-ca36d.firebaseapp.com",
-    projectId: "nexus-ai-project-ca36d",
-    storageBucket: "nexus-ai-project-ca36d.firebasestorage.app",
-    messagingSenderId: "1064011591904",
-    appId: "1:1064011591904:web:28f48e7f5e95e1f9a96085",
-    measurementId: "G-NN9YKZEB0E"
-};
-
-try {
-    const app = initializeApp(firebaseConfig);
-    const analytics = getAnalytics(app);
-    console.log("Firebase Frontend Initialized");
-} catch (e) {
-    console.warn("Firebase Init Error (Check module support in dashboard.html):", e);
-}
+// Firebase Removed as per request
+// Core data storage is handled by the Python Backend (storage.py)
 
 // Global Filter State
 let currentFilter = 'All';
@@ -223,7 +202,20 @@ async function fetchLatestResults() {
             }
         }
     } catch (e) {
-        console.log("Awaiting Analysis...", e);
+        console.log("Awaiting Analysis or Error...", e);
+        // Fallback on error (Network/Server fail)
+        latestResults = DEMO_DATA;
+        renderDashboard(DEMO_DATA);
+
+        // Add error-specific banner if not present
+        const container = document.querySelector('.dashboard-container');
+        if (container && !document.getElementById('demo-banner')) {
+            const banner = document.createElement('div');
+            banner.id = 'demo-banner';
+            banner.style.cssText = "background: rgba(239, 68, 68, 0.1); color: #ef4444; padding: 10px; border-radius: 8px; margin-bottom: 20px; text-align: center; border: 1px solid rgba(239, 68, 68, 0.2); font-size: 0.9rem;";
+            banner.innerHTML = '<i class="fa-solid fa-triangle-exclamation"></i> <b>System Offline:</b> Displaying static demo data. Check server logs.';
+            container.prepend(banner);
+        }
     } finally {
         fetchStats();
     }
@@ -546,5 +538,12 @@ async function triggerAnalysis() {
 
 function logout() {
     sessionStorage.clear();
-    window.location.href = '/';
+    window.location.href = 'index.html'; // Changed from '/' to index.html for local/static serving safety
 }
+
+// Expose functions to global scope for HTML onclick access
+window.logout = logout;
+window.switchView = switchView;
+window.exportReport = exportReport;
+window.fetchLatestResults = fetchLatestResults; // Helpful for debugging
+window.triggerAnalysis = triggerAnalysis;
