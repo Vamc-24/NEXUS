@@ -10,6 +10,7 @@ sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 from flask_sqlalchemy import SQLAlchemy
 from backend.storage import db, SQLAlchemyStorage
+from ai_module.pipeline import run_pipeline
 
 app = Flask(__name__, static_folder='../frontend', static_url_path='/')
 CORS(app)

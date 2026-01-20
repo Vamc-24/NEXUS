@@ -52,7 +52,7 @@ def run_pipeline(storage, institute_id=None):
 
     # Save Results
     print("Pipeline: Saving results...")
-    storage.save_clusters(processed_clusters, institute_id=institute_id)
+    storage.save_clusters(institute_id, processed_clusters)
     
     # Mark as processed
     feedback_ids = [item['id'] for item in unprocessed]
