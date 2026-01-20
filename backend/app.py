@@ -32,6 +32,10 @@ with app.app_context():
 
 storage = SQLAlchemyStorage(db)
 
+@app.route('/')
+def index():
+    return app.send_static_file('index.html')
+
 @app.route('/api/feedback', methods=['POST'])
 def submit_feedback():
     data = request.json
